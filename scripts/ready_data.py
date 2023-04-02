@@ -90,6 +90,8 @@ class Pseudo_lambda(object):
     def __call__(self, index_id):
         gather_bands(index_id, self.fits_folder, self.all_images, self.zps)
 
+def test(x): return x
+
 def main():
     if len(sys.argv) != 3: print(f"Usage: {sys.argv[0]} <clf/unl> <csv name>")
 
@@ -108,10 +110,10 @@ def main():
 
         index_id = list(enumerate(temp_csv.ID))
 
-        #multiprocessing.cpu_count()
+        #multiprocessing.cpu_count() Pseudo_lambda(fits_folder, all_images, zps)
         with multiprocessing.Pool(2) as pool:
             with tqdm(total=len(index_id)) as pbar:
-                for _ in pool.imap_unordered(Pseudo_lambda(fits_folder, all_images, zps), index_id):
+                for _ in pool.imap_unordered(test, index_id):
                     pbar.update(1)
 
 
