@@ -82,6 +82,13 @@ def gather_bands(index_id, fits_folder, all_images, zps):
         final_all_bands = np.transpose(np.array(all_bands), (1,2,0))
         all_images[index,:] = final_all_bands
 
+class Pseudo_lambda(object):
+    def __init__(self, fits_folder, all_images, zps):
+        self.fits_folder = fits_folder
+        self.all_images = all_images
+        self.zps = zps
+    def __call__(self, index_id):
+        gather_bands(index_id, self.fits_folder, self.all_images, self.zps)
 
 def main():
     if len(sys.argv) != 3: print(f"Usage: {sys.argv[0]} <clf/unl> <csv name>")
@@ -103,7 +110,7 @@ def main():
 
         with multiprocessing.Pool(multiprocessing.cpu_count()) as pool:
             with tqdm(total=len(index_id)) as pbar:
-                for _ in pool.imap_unordered(lambda c: gather_bands(c, fits_folder, all_images, zps), index_id):
+                for _ in pool.imap_unordered(Pseudo_lambda(fits_folder, all_images, zps), index_id):
                     pbar.update(1)
 
 
