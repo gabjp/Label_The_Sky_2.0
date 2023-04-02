@@ -3,6 +3,7 @@ import pandas as pd
 import numpy as np
 from cv2 import resize, INTER_CUBIC
 import sys
+from tqdm import tqdm 
 
 # 0 -> QSO; 1 -> STAR; 2 -> GAL
 
@@ -80,7 +81,9 @@ def main():
         temp_csv = csv[csv.split==split]
         all_images = np.zeros((len(temp_csv.index),) + (32, 32, 12))
 
-        for index, row in temp_csv.iterrows():
+        print("Processing fits files")
+
+        for index, row in tqdm(temp_csv.iterrows(), total = len(temp_csv.index)):
             #Computar imagem
             all_bands = []
 
@@ -97,13 +100,16 @@ def main():
         np.save(ready_folder + f"{sys.argv[2]}_images_{split}.npy", all_images)
         print(f"File Saved: {ready_folder}{sys.argv[2]}_images_{split}.npy")
 
+        columns = SPLUS_MAGS + SPLUS_MORPH + WISE_MAGS if is_clf else SPLUS_MAGS + SPLUS_MORPH 
+
         np.save(ready_folder + f"{sys.argv[2]}_tabular_{split}.npy", 
-                temp_csv[SPLUS_MAGS + SPLUS_MORPH + WISE_MAGS].to_numpy())
+                temp_csv[columns].to_numpy())
         print(f"File Saved: {ready_folder}{sys.argv[2]}_tabular_{split}.npy")
 
-        np.save(ready_folder + f"{sys.argv[2]}_class_{split}.npy", 
-                temp_csv['target'].to_numpy())
-        print(f"File Saved: {ready_folder}{sys.argv[2]}_class_{split}.npy")
+        if is_clf:
+            np.save(ready_folder + f"{sys.argv[2]}_class_{split}.npy", 
+                    temp_csv['target'].to_numpy())
+            print(f"File Saved: {ready_folder}{sys.argv[2]}_class_{split}.npy")
 
 
     return 
