@@ -3,8 +3,7 @@ import pandas as pd
 import numpy as np
 from cv2 import resize, INTER_CUBIC
 import sys
-from tqdm import tqdm
-import multiprocessing
+from tqdm import tqdm 
 
 # 0 -> QSO; 1 -> STAR; 2 -> GAL
 
@@ -67,29 +66,6 @@ def calibrate(x, id, band, zps):
     zp = float(zps[zps["Field"]==id[7:20]][BAND_TO_ZP[band]])
     return (10**(5-0.4*zp)/(ps*ps))*x
 
-def gather_bands(index_id, fits_folder, all_images, zps):
-        #Computar imagem
-        index, id = index_id 
-        all_bands = []
-
-        for band in BANDS:
-            fits_path = fits_folder + band + f"/{id}.fits"
-            img = fits.open(fits_path)[1].data
-            img = calibrate(img, id, band, zps)
-            img = resize(img, dsize=(32, 32), interpolation=INTER_CUBIC)
-            all_bands.append(img)
-            
-        final_all_bands = np.transpose(np.array(all_bands), (1,2,0))
-        all_images[index,:] = final_all_bands
-
-class Pseudo_lambda(object):
-    def __init__(self, fits_folder, all_images, zps):
-        self.fits_folder = fits_folder
-        self.all_images = all_images
-        self.zps = zps
-    def __call__(self, index_id):
-        gather_bands(index_id, self.fits_folder, self.all_images, self.zps)
-
 
 def main():
     if len(sys.argv) != 3: print(f"Usage: {sys.argv[0]} <clf/unl> <csv name>")
@@ -107,16 +83,19 @@ def main():
 
         print("Processing fits files")
 
-        index_id = list(enumerate(temp_csv.ID))
+        for index, row in tqdm(temp_csv.iterrows(), total = len(temp_csv.index)):
+            #Computar imagem
+            all_bands = []
 
-        test = Pseudo_lambda(fits_folder, all_images, zps)
-
-        #multiprocessing.cpu_count() Pseudo_lambda(fits_folder, all_images, zps)
-        with multiprocessing.Pool(2) as pool:
-            with tqdm(total=len(index_id)) as pbar:
-                for _ in pool.imap_unordered(test, index_id):
-                    pbar.update(1)
-
+            for band in BANDS:
+                fits_path = fits_folder + band + f"/{row.ID}.fits"
+                img = fits.open(fits_path)[1].data
+                img = calibrate(img, row.ID, band, zps)
+                img = resize(img, dsize=(32, 32), interpolation=INTER_CUBIC)
+                all_bands.append(img)
+            
+            final_all_bands = np.transpose(np.array(all_bands), (1,2,0))
+            all_images[index,:] = final_all_bands
 
         np.save(ready_folder + f"{sys.argv[2]}_images_{split}.npy", all_images)
         print(f"File Saved: {ready_folder}{sys.argv[2]}_images_{split}.npy")
