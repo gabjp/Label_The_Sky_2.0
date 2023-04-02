@@ -109,6 +109,7 @@ def main():
         print("Processing fits files")
 
         index_id = list(enumerate(temp_csv.ID))
+        print(index_id)
 
         #multiprocessing.cpu_count()
         with multiprocessing.Pool(2) as pool:
