@@ -67,9 +67,9 @@ def calibrate(x, id, band, zps):
     zp = float(zps[zps["Field"]==id[7:20]][BAND_TO_ZP[band]])
     return (10**(5-0.4*zp)/(ps*ps))*x
 
-def gather_bands(index_id_ff_ai_zps):
+def gather_bands(index_id, fits_folder, all_images, zps):
         #Computar imagem
-        index, id, fits_folder, all_images, zps = index_id_ff_ai_zps
+        index, id = index_id 
         all_bands = []
 
         for band in BANDS:
@@ -99,11 +99,11 @@ def main():
 
         print("Processing fits files")
 
-        index_id_ff_ai = [(index,id,fits_folder,all_images, zps) for index,id in enumerate (temp_csv.ID)]
+        index_id = list(enumerate(temp_csv))
 
         with multiprocessing.Pool(multiprocessing.cpu_count()) as pool:
-            with tqdm(total=len(index_id_ff_ai)) as pbar:
-                for _ in pool.imap_unordered(gather_bands, index_id_ff_ai):
+            with tqdm(total=len(index_id)) as pbar:
+                for _ in pool.imap_unordered(lambda c: gather_bands(c, fits_folder, all_images, zps), index_id):
                     pbar.update(1)
 
 
