@@ -102,7 +102,7 @@ def main():
         index_id_ff_ai = [(index,id,fits_folder,all_images, zps) for index,id in enumerate (temp_csv.ID)]
 
         with multiprocessing.Pool(multiprocessing.cpu_count()) as pool:
-            with tqdm.tqdm(total=len(index_id_ff_ai)) as pbar:
+            with tqdm(total=len(index_id_ff_ai)) as pbar:
                 for _ in pool.imap_unordered(gather_bands, index_id_ff_ai):
                     pbar.update(1)
 
