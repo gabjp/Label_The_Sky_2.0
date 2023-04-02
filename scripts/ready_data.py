@@ -81,7 +81,7 @@ def gather_bands(index_id, fits_folder, all_images, zps):
             all_bands.append(img)
             
         final_all_bands = np.transpose(np.array(all_bands), (1,2,0))
-        all_images[index,:] = final_all_bands
+        #all_images[index,:] = final_all_bands
 
 class Pseudo_lambda(object):
     def __init__(self, fits_folder, all_images, zps):
