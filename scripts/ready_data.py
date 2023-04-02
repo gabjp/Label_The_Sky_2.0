@@ -68,9 +68,7 @@ def calibrate(x, id, band, zps):
     return (10**(5-0.4*zp)/(ps*ps))*x
 
 def gather_bands(index_id, fits_folder, all_images, zps):
-        return 
         #Computar imagem
-        print("oi")
         index, id = index_id 
         all_bands = []
 
@@ -113,7 +111,7 @@ def main():
         #multiprocessing.cpu_count()
         with multiprocessing.Pool(2) as pool:
             with tqdm(total=len(index_id)) as pbar:
-                for _ in pool.map(Pseudo_lambda(fits_folder, all_images, zps), index_id):
+                for _ in pool.imap_unordered(Pseudo_lambda(fits_folder, all_images, zps), index_id):
                     pbar.update(1)
 
 
