@@ -110,8 +110,8 @@ def main():
 
         index_id = list(enumerate(temp_csv.ID))
 
-
-        with multiprocessing.Pool(multiprocessing.cpu_count()) as pool:
+        #multiprocessing.cpu_count()
+        with multiprocessing.Pool(2) as pool:
             with tqdm(total=len(index_id)) as pbar:
                 for _ in pool.imap_unordered(Pseudo_lambda(fits_folder, all_images, zps), index_id):
                     pbar.update(1)
