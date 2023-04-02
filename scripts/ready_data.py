@@ -69,6 +69,7 @@ def calibrate(x, id, band, zps):
 
 def gather_bands(index_id, fits_folder, all_images, zps):
         #Computar imagem
+        print("oi")
         index, id = index_id 
         all_bands = []
 
@@ -106,7 +107,7 @@ def main():
 
         print("Processing fits files")
 
-        index_id = list(enumerate(temp_csv))
+        index_id = list(enumerate(temp_csv.id))
 
         with multiprocessing.Pool(multiprocessing.cpu_count()) as pool:
             with tqdm(total=len(index_id)) as pbar:
