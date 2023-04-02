@@ -107,7 +107,7 @@ def main():
 
         print("Processing fits files")
 
-        index_id = list(enumerate(temp_csv.id))
+        index_id = list(enumerate(temp_csv.ID))
 
         with multiprocessing.Pool(multiprocessing.cpu_count()) as pool:
             with tqdm(total=len(index_id)) as pbar:
