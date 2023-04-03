@@ -7,8 +7,6 @@ from tqdm import tqdm
 
 # 0 -> QSO; 1 -> STAR; 2 -> GAL
 
-RA = 'RA'
-DEC = 'DEC'
 CLF_FITS_FOLDER = '../Data/raw/clf/'
 UNL_FITS_FOLDER = '../Data/raw/unl/'
 CLF_READY_FOLDER = '../Data/ready/clf/'
@@ -78,7 +76,6 @@ def main():
     zps = pd.read_csv(ZP_TABLE_PATH)
 
     for split in ['train', 'val', 'test']:
-        if split == 'train': continue
         temp_csv = csv[csv.split==split]
         all_images = np.zeros((len(temp_csv.index),) + (32, 32, 12))
 
