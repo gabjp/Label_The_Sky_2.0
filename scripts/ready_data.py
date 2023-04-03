@@ -78,12 +78,13 @@ def main():
     zps = pd.read_csv(ZP_TABLE_PATH)
 
     for split in ['train', 'val', 'test']:
+        if split == 'train': continue
         temp_csv = csv[csv.split==split]
         all_images = np.zeros((len(temp_csv.index),) + (32, 32, 12))
 
         print("Processing fits files")
 
-        for index, row in tqdm(temp_csv.iterrows(), total = len(temp_csv.index)):
+        for index,(_, row) in enumerate(tqdm(temp_csv.iterrows(), total = len(temp_csv.index))):
             #Computar imagem
             all_bands = []
 
