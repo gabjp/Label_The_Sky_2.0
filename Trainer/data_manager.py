@@ -8,6 +8,8 @@ UNL_TYPES = ['image', 'tabular']
 SPLITS = ['train', 'val', 'test']
 
 print(os.path.abspath(".."))
+print(os.path.exists(CLF_READY_FOLDER))
+print(os.path.exists(CLF_READY_FOLDER + 'clf_90_5_5' + '_' +'image' +'_' +'train' +'.npy'))
 
 def load_data(ds_name, is_clf):
     output = {}
