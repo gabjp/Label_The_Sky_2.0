@@ -1,7 +1,7 @@
 import numpy as np
 
-CLF_READY_FOLDER = '../Data/ready/clf/'
-UNL_READY_FOLDER = '../Data/ready/unl/'
+CLF_READY_FOLDER = '../../Data/ready/clf/'
+UNL_READY_FOLDER = '../../Data/ready/unl/'
 CLF_TYPES = ['image', 'tabular', 'wiseflags', 'class']
 UNL_TYPES = ['image', 'tabular']
 SPLITS = ['train', 'val', 'test']
