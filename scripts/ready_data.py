@@ -72,17 +72,17 @@ def main():
     csv_path = CLF_TABLE_FOLDER + sys.argv[2] + ".csv" if is_clf else UNL_TABLE_FOLDER + sys.argv[2] + ".csv"
     fits_folder = CLF_FITS_FOLDER if is_clf else UNL_FITS_FOLDER 
     ready_folder = CLF_READY_FOLDER if is_clf else UNL_READY_FOLDER 
-    csv = pd.read_csv(csv_path)
+    csv = pd.read_csv(csv_path).fillna(99)
     zps = pd.read_csv(ZP_TABLE_PATH)
 
     for split in ['train', 'val', 'test']:
         temp_csv = csv[csv.split==split]
         all_images = np.zeros((len(temp_csv.index),) + (32, 32, 12))
-
+        """
         print("Processing fits files")
 
         for index,(_, row) in enumerate(tqdm(temp_csv.iterrows(), total = len(temp_csv.index))):
-            #Computar imagem
+            #Compute image
             all_bands = []
 
             for band in BANDS:
@@ -95,15 +95,23 @@ def main():
             final_all_bands = np.transpose(np.array(all_bands), (1,2,0))
             all_images[index,:] = final_all_bands
 
+        #Save image
         np.save(ready_folder + f"{sys.argv[2]}_images_{split}.npy", all_images)
         print(f"File Saved: {ready_folder}{sys.argv[2]}_images_{split}.npy")
-
+        """
         columns = SPLUS_MAGS + SPLUS_MORPH + WISE_MAGS if is_clf else SPLUS_MAGS + SPLUS_MORPH 
 
+        #Save tabular data
         np.save(ready_folder + f"{sys.argv[2]}_tabular_{split}.npy", 
                 temp_csv[columns].to_numpy())
         print(f"File Saved: {ready_folder}{sys.argv[2]}_tabular_{split}.npy")
 
+        #Save wise flags
+        np.save(ready_folder + f"{sys.argv[2]}_wiseflags_{split}.npy", 
+                (temp_csv[WISE_MAGS[0]] != 99 ).to_numpy())
+        print(f"File Saved: {ready_folder}{sys.argv[2]}_wiseflags_{split}.npy")
+
+        #Save classes
         if is_clf:
             np.save(ready_folder + f"{sys.argv[2]}_class_{split}.npy", 
                     temp_csv['target'].to_numpy())
