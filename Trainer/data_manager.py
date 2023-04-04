@@ -11,8 +11,7 @@ def load_data(ds_name, is_clf):
     types = CLF_TYPES if is_clf else UNL_TYPES
     for split in SPLITS:
         for type in types:
-            with open(CLF_READY_FOLDER + ds_name + '_' +type +'_' +split +'.npy', "r")as file:
-                output[type +'_' +split] = np.load(file)
+            output[type +'_' +split] = np.load(CLF_READY_FOLDER + ds_name + '_' +type +'_' +split +'.npy')
     return output
 
     
