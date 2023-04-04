@@ -1,5 +1,7 @@
-from ..Trainer.data_manager import load_data
-from ..Trainer.sky_classifier import SkyClassifier
+import sys
+sys.path.append("..")
+from Trainer.data_manager import load_data
+from Trainer.sky_classifier import SkyClassifier
 import numpy as np
 
 def main():
