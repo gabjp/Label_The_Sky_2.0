@@ -1,15 +1,10 @@
 import numpy as np
-import os
 
-CLF_READY_FOLDER = os.path.abspath("..") + "/Data/ready/clf/"
-UNL_READY_FOLDER = os.path.abspath("..") + "/Data/ready/unl/"
-CLF_TYPES = ['image', 'tabular', 'wiseflags', 'class']
-UNL_TYPES = ['image', 'tabular']
+CLF_READY_FOLDER = "../Data/ready/clf/"
+UNL_READY_FOLDER = "../Data/ready/unl/"
+CLF_TYPES = ['images', 'tabular', 'wiseflags', 'class']
+UNL_TYPES = ['images', 'tabular']
 SPLITS = ['train', 'val', 'test']
-
-print(os.path.abspath(".."))
-print(os.path.exists(CLF_READY_FOLDER))
-print(os.path.exists(CLF_READY_FOLDER + 'clf_90_5_5' + '_' +'image' +'_' +'train' +'.npy'))
 
 def load_data(ds_name, is_clf):
     output = {}
