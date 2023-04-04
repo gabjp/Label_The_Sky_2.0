@@ -7,6 +7,7 @@ CLF_TYPES = ['image', 'tabular', 'wiseflags', 'class']
 UNL_TYPES = ['image', 'tabular']
 SPLITS = ['train', 'val', 'test']
 print(os.path.abspath("."))
+print(os.path.abspath(".."))
 
 def load_data(ds_name, is_clf):
     output = {}
