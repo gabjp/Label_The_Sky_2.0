@@ -78,7 +78,7 @@ def main():
     for split in ['train', 'val', 'test']:
         temp_csv = csv[csv.split==split]
         all_images = np.zeros((len(temp_csv.index),) + (32, 32, 12))
-        """
+        
         print("Processing fits files")
 
         for index,(_, row) in enumerate(tqdm(temp_csv.iterrows(), total = len(temp_csv.index))):
@@ -98,7 +98,7 @@ def main():
         #Save image
         np.save(ready_folder + f"{sys.argv[2]}_images_{split}.npy", all_images)
         print(f"File Saved: {ready_folder}{sys.argv[2]}_images_{split}.npy")
-        """
+        
         columns = SPLUS_MAGS + SPLUS_MORPH + WISE_MAGS if is_clf else SPLUS_MAGS + SPLUS_MORPH 
 
         #Save tabular data
@@ -106,13 +106,13 @@ def main():
                 temp_csv[columns].to_numpy())
         print(f"File Saved: {ready_folder}{sys.argv[2]}_tabular_{split}.npy")
 
-        #Save wise flags
-        np.save(ready_folder + f"{sys.argv[2]}_wiseflags_{split}.npy", 
-                (temp_csv[WISE_MAGS[0]] != 99 ).to_numpy())
-        print(f"File Saved: {ready_folder}{sys.argv[2]}_wiseflags_{split}.npy")
-
-        #Save classes
         if is_clf:
+            #Save wise flags
+            np.save(ready_folder + f"{sys.argv[2]}_wiseflags_{split}.npy", 
+                    (temp_csv[WISE_MAGS[0]] != 99 ).to_numpy())
+            print(f"File Saved: {ready_folder}{sys.argv[2]}_wiseflags_{split}.npy")
+
+            #Save classes
             np.save(ready_folder + f"{sys.argv[2]}_class_{split}.npy", 
                     temp_csv['target'].to_numpy())
             print(f"File Saved: {ready_folder}{sys.argv[2]}_class_{split}.npy")
