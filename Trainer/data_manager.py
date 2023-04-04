@@ -6,6 +6,7 @@ UNL_READY_FOLDER = f"{os.path.expanduser('~')}/Label_The_Sky_2.0/Data/ready/unl/
 CLF_TYPES = ['image', 'tabular', 'wiseflags', 'class']
 UNL_TYPES = ['image', 'tabular']
 SPLITS = ['train', 'val', 'test']
+print(os.path.abspath("."))
 
 def load_data(ds_name, is_clf):
     output = {}
