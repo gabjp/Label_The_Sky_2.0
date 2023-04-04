@@ -1,8 +1,8 @@
 import numpy as np
 import os
 
-CLF_READY_FOLDER = f"../Label_The_Sky_2.0/Data/ready/clf/"
-UNL_READY_FOLDER = f"../Label_The_Sky_2.0/Data/ready/unl/"
+CLF_READY_FOLDER = f"../Data/ready/clf/"
+UNL_READY_FOLDER = f"../Data/ready/unl/"
 CLF_TYPES = ['image', 'tabular', 'wiseflags', 'class']
 UNL_TYPES = ['image', 'tabular']
 SPLITS = ['train', 'val', 'test']
