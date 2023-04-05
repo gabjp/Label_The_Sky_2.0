@@ -71,8 +71,8 @@ class SkyClassifier:
             with open(self.model_folder + self.model_name + '_' + ds_name + '.results', 'w') as results:
                     pred = self.model.predict(X)
                     total = classification_report(y, pred, digits = 6, target_names = CLASS_NAMES)
-                    print(wise_flags)
-                    with_wise = classification_report(y[wise_flags.flatten(),:], pred[wise_flags.flatten(),:], digits = 6, target_names = CLASS_NAMES) if wise_flags != None else None
+                    print(y[wise_flags,:])
+                    with_wise = classification_report(y[wise_flags,:], pred[wise_flags,:], digits = 6, target_names = CLASS_NAMES) if wise_flags != None else None
                     no_wise = classification_report(y[~wise_flags,:], pred[~wise_flags,:], digits = 6, target_names = CLASS_NAMES) if wise_flags != None else None
 
                     output = f"""Model: {self.model_type}\n
