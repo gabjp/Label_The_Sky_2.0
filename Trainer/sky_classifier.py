@@ -4,7 +4,8 @@ import os
 from sklearn.ensemble import RandomForestClassifier
 import joblib
 from sklearn.metrics import classification_report
-from textwrap import dedent
+from utils import eval_string, log_string
+
 
 MODELS = ['vgg16', 'RF']
 CLASS_NAMES = ['QSO', 'STAR', 'GALAXY']
@@ -50,11 +51,7 @@ class SkyClassifier:
             if self.save: 
                 joblib.dump(self.model, self.model_folder + self.model_name + '.sav')
                 with open(self.model_folder + self.model_name + '.log', 'w') as log:
-                    log.write(dedent(f"""Model: {self.model_type}\n
-                              Model Name: {self.model_name}\n
-                              Wise: {self.wise}\n
-                              {self.model.get_params()}\n
-                              Notes: {notes}"""))
+                    log.write(log_string(self.model_type, self.model_name, self.wise, self.model.get_params(), notes))
 
         elif self.model_type == "vgg16":
             pass
@@ -75,17 +72,7 @@ class SkyClassifier:
                     with_wise = classification_report(y[wise_flags], pred[wise_flags], digits = 6, target_names = CLASS_NAMES) if type(wise_flags) != type(None) else None
                     no_wise = classification_report(y[np.invert(wise_flags)], pred[np.invert(wise_flags)], digits = 6, target_names = CLASS_NAMES) if type(wise_flags) != type(None) else None
 
-                    output = dedent(f"""Model: {self.model_type}\n
-                              Model Name: {self.model_name}\n
-                              Wise: {self.wise}\n
-                              Data set name: {ds_name}\n
-                              Total:\n
-                              {total}
-                              With Wise:\n
-                              {with_wise}
-                              Without Wise:\n
-                              {no_wise}
-                              """)
+                    output = eval_string(self.model_type, self.model_name, self.wise, ds_name, total, with_wise, no_wise)
                     
                     if self.save:
                         results.write(output)
