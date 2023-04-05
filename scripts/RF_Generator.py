@@ -32,7 +32,7 @@ def main():
     #Generate Only Wise RF:
     onlywise_rf = SkyClassifier('RF', "Only_Wise_RF", True)
     onlywise_rf.build_model(n_estimators=100, bootstrap=False)
-    nowise_rf.train(data["tabular_train"][data['wiseflags_train'],:], data["class_train"][data['wiseflags_train'],:], "This model only uses objects with wise magnites")
+    nowise_rf.train(data["tabular_train"][data['wiseflags_train'],:], data["class_train"][data['wiseflags_train']], "This model only uses objects with wise magnites")
     nowise_rf.eval(data["tabular_val"][data['wiseflags_val']], data["class_val"][data['wiseflags_val']], "clf_90_5_5_val_withwise")
     nowise_rf.eval(data["tabular_test"][data['wiseflags_test']], data["class_test"][data['wiseflags_test']], "clf_90_5_5_test_withwise")
     print("Generated Only Wise RF", flush=True)
