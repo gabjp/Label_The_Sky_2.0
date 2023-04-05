@@ -48,7 +48,7 @@ class SkyClassifier:
 
             if self.save: 
                 joblib.dump(self.model, self.model_folder + self.model_name + '.sav')
-                with open(self.model_folder + self.model_name + '.log', 'rw') as log:
+                with open(self.model_folder + self.model_name + '.log', 'w') as log:
                     log.write(f"""Model: {self.model_type}\n
                               Model Name: {self.model_name}\n
                               Wise: {self.wise}\n
