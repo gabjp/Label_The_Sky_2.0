@@ -4,7 +4,7 @@ import os
 from sklearn.ensemble import RandomForestClassifier
 import joblib
 from sklearn.metrics import classification_report
-from utils import eval_string, log_string
+from Trainer.utils import eval_string, log_string
 
 
 MODELS = ['vgg16', 'RF']
