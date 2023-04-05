@@ -4,6 +4,7 @@ import os
 from sklearn.ensemble import RandomForestClassifier
 import joblib
 from sklearn.metrics import classification_report
+from textwrap import dedent
 
 MODELS = ['vgg16', 'RF']
 CLASS_NAMES = ['QSO', 'STAR', 'GALAXY']
@@ -49,11 +50,11 @@ class SkyClassifier:
             if self.save: 
                 joblib.dump(self.model, self.model_folder + self.model_name + '.sav')
                 with open(self.model_folder + self.model_name + '.log', 'w') as log:
-                    log.write(f"""Model: {self.model_type}\n
+                    log.write(dedent(f"""Model: {self.model_type}\n
                               Model Name: {self.model_name}\n
                               Wise: {self.wise}\n
                               {self.model.get_params()}\n
-                              Notes: {notes}""")
+                              Notes: {notes}"""))
 
         elif self.model_type == "vgg16":
             pass
@@ -74,7 +75,7 @@ class SkyClassifier:
                     with_wise = classification_report(y[wise_flags], pred[wise_flags], digits = 6, target_names = CLASS_NAMES) if type(wise_flags) != type(None) else None
                     no_wise = classification_report(y[np.invert(wise_flags)], pred[np.invert(wise_flags)], digits = 6, target_names = CLASS_NAMES) if type(wise_flags) != type(None) else None
 
-                    output = f"""Model: {self.model_type}\n
+                    output = dedent(f"""Model: {self.model_type}\n
                               Model Name: {self.model_name}\n
                               Wise: {self.wise}\n
                               Data set name: {ds_name}\n
@@ -84,7 +85,7 @@ class SkyClassifier:
                               {with_wise}
                               Without Wise:\n
                               {no_wise}
-                              """
+                              """)
                     
                     if self.save:
                         results.write(output)
