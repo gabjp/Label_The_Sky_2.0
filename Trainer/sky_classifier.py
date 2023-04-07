@@ -55,7 +55,8 @@ class SkyClassifier:
             self.model = vgg16(self.wise, l2)
             if self.pretext_output == None:
                 self.model.add(tf.keras.layers.Dropout(dropout))
-                self.model.add(tf.keras.layers.Dense(1024, activation='relu', kernel_regularizer = tf.keras.regularizers.l2(l2))) # Maybe change to leaky relu later
+                self.model.add(tf.keras.layers.Dense(1024, kernel_regularizer = tf.keras.regularizers.l2(l2)))
+                self.model.add(tf.keras.layers.LeakyReLU())
                 self.model.add(tf.keras.layers.Dense(3, activation='softmax'))
 
             elif self.pretext_output == 'magnitudes': 
