@@ -15,9 +15,9 @@ def main():
     print("Loaded Data", flush=True)
 
     model = SkyClassifier("vgg16", "vgg16_from_scratch", False)
-    opt = tf.keras.optimizers.Adam(learning_rate=1e-5)
-    model.build_model(l2=0.0007, dropout=0.5, opt=opt)
-    model.train(X, y, X_val=X_val, y_val=y_val, notes = f"lr: 1e-3, l2: 0.0007, dropout: 0.5")
+    opt = tf.keras.optimizers.Adam(learning_rate=1e-4)
+    model.build_model(l2=0, dropout=0.2, opt=opt)
+    model.train(X, y, X_val=X_val, y_val=y_val, notes = f"lr: 1e-3, l2: 0.0007, dropout: 0.5", epochs=10)
     model.eval(X_val, y_val, "clf_90_5_5_val", wise_flags=wise_val)
     model.eval(X_test, y_test, "clf_90_5_5_test", wise_flags=wise_test)
 
