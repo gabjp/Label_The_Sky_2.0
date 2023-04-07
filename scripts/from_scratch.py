@@ -14,7 +14,7 @@ def main():
     wise_val, wise_test = data['wiseflags_val'], data['wiseflags_test'] 
     print("Loaded Data", flush=True)
 
-    for lr in [1e-3,1e-4,1e-5]:
+    for lr in [5*1e-4,1e-4,1e-5]:
         for l2 in [0,0.0007,0.001]:
             for dpout in [0,0.2, 0.5]:
                 print(f"vgg16_from_scratch_lr:{lr}_l2:{l2}_dropout:{dpout}")
