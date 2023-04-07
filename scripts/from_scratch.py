@@ -16,7 +16,7 @@ def main():
 
     for bsize in [32,64]:
         for lr in [1e-4,1e-5]:
-            for l2 in [0.0007,0]:
+            for l2 in [0,0.0007]:
                 for dpout in [0.2,0,0.5]:
 
                     print(f"vgg16_from_scratch_lr:{lr}_l2:{l2}_dropout:{dpout}_bsize:{bsize}", flush=True)
