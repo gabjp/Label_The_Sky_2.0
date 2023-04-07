@@ -65,7 +65,7 @@ class SkyClassifier:
                 pass
             
             if 'opt' not in kwargs.keys(): raise ValueError("missing opt paramenter (with learning rate)") 
-            self.model.compile(metrics = ["accuracy"], loss="categorical_crossentropy", opt = kwargs["opt"]) # expects optimizer (with learning rate)
+            self.model.compile(metrics = ["accuracy"], loss="categorical_crossentropy", optimizer = kwargs["opt"]) # expects optimizer (with learning rate)
 
 
     def finetune(self):
