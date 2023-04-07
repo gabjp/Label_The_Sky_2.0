@@ -8,9 +8,9 @@ def main():
     print("Loading Data", flush=True)
     ds_name = 'clf_90_5_5'
     data = load_data(ds_name, True)
-    X,y = data['image_train'], data['class_train']
-    X_val,y_val = data['image_val'], data['class_val']
-    X_test,y_test = data['image_test'], data['class_test']
+    X,y = data['images_train'], data['class_train']
+    X_val,y_val = data['images_val'], data['class_val']
+    X_test,y_test = data['images_test'], data['class_test']
     wise_val, wise_test = data['wiseflags_val'], data['wiseflags_test'] 
     print("Loaded Data", flush=True)
 
