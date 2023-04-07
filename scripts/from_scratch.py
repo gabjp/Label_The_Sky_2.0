@@ -17,6 +17,7 @@ def main():
     for lr in [1e-3,1e-4,1e-5]:
         for l2 in [0,0.0007,0.001]:
             for dpout in [0,0.2, 0.5]:
+                print(f"vgg16_from_scratch_lr:{lr}_l2:{l2}_dropout:{dpout}")
                 model = SkyClassifier(f"vgg16", f"vgg16_from_scratch_lr:{lr}_l2:{l2}_dropout:{dpout}", False)
                 opt = tf.keras.optimizers.Adam(learning_rate=lr)
                 model.build_model(l2=l2, dropout=dpout, opt=opt)
