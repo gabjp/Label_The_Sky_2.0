@@ -104,7 +104,7 @@ class SkyClassifier:
             )
             if self.save:
                 with open(self.model_folder + self.model_name + '.log', 'w') as log:
-                    log.write(log_string(self.model_type, self.model_name, self.wise, self.model.summary(), notes))
+                    log.write(log_string(self.model_type, self.model_name, self.wise, self.model.summary(print_fn=lambda x: x+"\n"), notes))
                 save_plots(history, self.model_folder, self.model_name)
 
         else:
