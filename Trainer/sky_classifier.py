@@ -112,12 +112,15 @@ class SkyClassifier:
             raise ValueError("You need to pretrain/finetune a model with pretext_output != none")
 
 
-    def load_model(self):
+    def load_model(self, weights_path = None ):
+
+        weights_path = self.model_folder + self.model_name if weights_path == None else weights_path
+
         if self.model_type == "RF":
-            self.model = joblib.load(self.model_folder + self.model_name + '.sav')
+            self.model = joblib.load(weights_path + '.sav')
         
         elif self.model_type == "vgg16":
-            self.model.load_weights(self.model_folder + self.model_name + '.h5')
+            self.model.load_weights(weights_path + '.h5')
 
     def eval(self, X, y, ds_name, wise_flags = None):
         if self.model_type == "RF":
