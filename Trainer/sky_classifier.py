@@ -88,7 +88,7 @@ class SkyClassifier:
                 raise ValueError("Add validation data")
             
             class_weights = compute_class_weight(class_weight='balanced', classes=np.unique(y), y=y)
-            print(class_weights)
+            class_weights = {0:class_weights[0],1:class_weights[1],2:class_weights[2]}
 
             history = self.model.fit(
                 X, tf.keras.utils.to_categorical(y),
