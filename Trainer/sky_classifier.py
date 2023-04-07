@@ -30,7 +30,7 @@ class SkyClassifier:
         self.model_name = model_name
         self.model_folder = OUT_DIR+self.model_name + '/'
 
-        if self.save:
+        if self.save and not os.path.exists(OUT_DIR+self.model_name):
             os.mkdir(OUT_DIR+self.model_name)
 
         if self.model_type == "vgg16":
