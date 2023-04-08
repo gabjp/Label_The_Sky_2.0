@@ -45,8 +45,8 @@ def vgg16(wise, l2):
                                 ])
 
 def save_plots(history, save_folder, model_name):
-    loss_path = save_folder + model_name + "_loss.png"
-    acc_path = save_folder + model_name + "_acc.png"
+    loss_path = save_folder + "loss.png"
+    acc_path = save_folder + "acc.png"
 
     for (metric, path) in [('loss', loss_path),('accuracy', acc_path)]:
         plt.plot(history.history[metric])

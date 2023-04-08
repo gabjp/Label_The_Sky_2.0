@@ -81,7 +81,7 @@ class SkyClassifier:
 
             if self.save: 
                 joblib.dump(self.model, self.model_folder + self.model_name + '.sav')
-                with open(self.model_folder + self.model_name + '.log', 'w') as log:
+                with open(self.model_folder + 'log', 'w') as log:
                     log.write(log_string(self.model_type, self.model_name, self.wise, self.model.get_params(), notes))
 
         elif self.model_type == "vgg16" and self.pretext_output == None:
@@ -104,7 +104,7 @@ class SkyClassifier:
             if self.save:
                 summary = ""
                 self.model.summary(print_fn=lambda x: summary+x+"\n")
-                with open(self.model_folder + self.model_name + '.log', 'w') as log:
+                with open(self.model_folder + 'log', 'w') as log:
                     log.write(log_string(self.model_type, self.model_name, self.wise, summary , notes))
                 save_plots(history, self.model_folder, self.model_name)
 
@@ -129,7 +129,7 @@ class SkyClassifier:
         elif self.model_type == "vgg16":
             pred = np.argmax(self.model.predict(X), axis=1)
 
-        with open(self.model_folder + self.model_name + '_' + ds_name + '.results', 'w') as results:
+        with open(self.model_folder + ds_name + '.results', 'w') as results:
             total = classification_report(y, pred, digits = 6, target_names = CLASS_NAMES)
             with_wise = classification_report(y[wise_flags], pred[wise_flags], digits = 6, target_names = CLASS_NAMES) if type(wise_flags) != type(None) else None
             no_wise = classification_report(y[np.invert(wise_flags)], pred[np.invert(wise_flags)], digits = 6, target_names = CLASS_NAMES) if type(wise_flags) != type(None) else None
@@ -138,8 +138,8 @@ class SkyClassifier:
                     
             if self.save:
                 results.write(output)
-            else:
-                print(output)
+                
+            print(output)
         
     def predict(self):
         pass
