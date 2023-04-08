@@ -19,9 +19,9 @@ def main():
     #        for l2 in [0,0.0007]:
     #            for dpout in [0.2,0,0.5]:
 
-    lr = float(sys.argv[2])
-    l2 = float(sys.argv[3])
-    dpout = float(sys.argv[4])
+    lr = float(sys.argv[1])
+    l2 = float(sys.argv[2])
+    dpout = float(sys.argv[3])
 
     print(f"vgg16_from_scratch_lr_{lr}_l2_{l2}_dt_{dpout}", flush=True)
     model = SkyClassifier(f"vgg16", f"vgg16_from_scratch_lr:{lr}_l2:{l2}_dropout:{dpout}", False)
