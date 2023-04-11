@@ -89,8 +89,8 @@ class SkyClassifier:
         if self.pretext_output == 'magnitudes':
 
             with tf.device("CPU"):
-                train = tf.keras.Dataset.from_tensor_slices((X, y/MAG_MAX)).batch(batch_size)
-                validate = tf.keras.Dataset.from_tensor_slices((X_val, y_val/MAG_MAX)).batch(batch_size)
+                train = tf.data.Dataset.from_tensor_slices((X, y/MAG_MAX)).batch(batch_size)
+                validate = tf.data.Dataset.from_tensor_slices((X_val, y_val/MAG_MAX)).batch(batch_size)
 
             history = self.model.fit(
                 train,
