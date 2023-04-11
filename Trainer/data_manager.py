@@ -9,9 +9,10 @@ SPLITS = ['train', 'val', 'test']
 def load_data(ds_name, is_clf):
     output = {}
     types = CLF_TYPES if is_clf else UNL_TYPES
+    ready_folder = CLF_READY_FOLDER if is_clf else UNL_READY_FOLDER
     for split in SPLITS:
         for type in types:
-            output[type +'_' +split] = np.load(CLF_READY_FOLDER + ds_name + '_' +type +'_' +split +'.npy')
+            output[type +'_' +split] = np.load(ready_folder + ds_name + '_' +type +'_' +split +'.npy')
     return output
 
     

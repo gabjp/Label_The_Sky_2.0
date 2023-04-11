@@ -106,12 +106,17 @@ class SkyClassifier:
 
     def eval_pretrain(self, X, y, ds_name):
         
-        y_hat = self.model.predict(X) * MAG_MAX
-        err = np.abs(y-y_hat)
-        mag_mae = err.mean(axis=0)
-        mae = mag_mae.mean()
+        if self.pretext_output == "magnitudes":
 
-        output = pretrain_eval_string(mag_mae, mae)
+            y_hat = self.model.predict(X) * MAG_MAX
+            err = np.abs(y-y_hat)
+            mag_mae = err.mean(axis=0)
+            mae = mag_mae.mean()
+
+            output = pretrain_eval_string(mag_mae, mae)
+
+        elif self.pretext_output == "images":
+            pass
 
         if self.save:
             with open(self.model_folder + ds_name + '.results', 'w') as results:
