@@ -92,7 +92,7 @@ class SkyClassifier:
                 validation_data = (X_val, y_val/MAG_MAX),
                 batch_size = batch_size,
                 epochs = epochs,
-                classbacks = self.callbacks,
+                callbacks =  self.callbacks,
                 verbose=2
             )
 
