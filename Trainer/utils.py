@@ -1,5 +1,20 @@
 import tensorflow as tf
 from matplotlib import pyplot as plt
+MAG_MAX = 35
+
+BANDS = ["U",
+             "F378",
+             "F395",
+             "F410",
+             "F430",
+             "G",
+             "F515",
+             "R",
+             "F660",
+             "I",
+             "F861",
+             "Z"]
+
 
 def eval_string(model_type, model_name, wise, ds_name, total, with_wise, no_wise):
     return f"""Model: {model_type}\nModel Name: {model_name}\nWise: {wise}\nData set name: {ds_name}\nTotal:\n{total}With Wise:\n{with_wise}Without Wise:\n{no_wise}"""
@@ -48,7 +63,9 @@ def save_plots(history, save_folder, model_name):
     loss_path = save_folder + "loss.png"
     acc_path = save_folder + "acc.png"
 
-    for (metric, path) in [('loss', loss_path),('accuracy', acc_path)]:
+    vals = [('loss', loss_path),('accuracy', acc_path)] if 'accuracy' in history.history.keys() else [('loss', loss_path)]
+
+    for (metric, path) in vals:
         plt.plot(history.history[metric])
         plt.plot(history.history[f"val_{metric}"])
         plt.title(model_name)
@@ -57,3 +74,17 @@ def save_plots(history, save_folder, model_name):
         plt.legend(['train', 'val'], loc='upper left')
         plt.savefig(path)
         plt.clf()
+
+def pretrain_eval_string(mag_mae, mae):
+  return str(dict(zip(BANDS, mag_mae))) + "\n" + "MAE: " + mae
+
+   
+
+class CustomMAE(tf.keras.losses.Loss):
+  def __init__(self):
+    super().__init__()
+    self.mae = tf.keras.losses.MeanAbsoluteError()
+  def call(self, y_true, y_pred):
+    mvalue = 99/MAG_MAX
+    mask = tf.keras.backend.cast(tf.keras.backend.not_equal(y_true, mvalue), tf.keras.backend.floatx())
+    return self.mae(y_true*mask, y_pred*mask)
