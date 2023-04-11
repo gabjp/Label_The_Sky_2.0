@@ -84,12 +84,17 @@ class SkyClassifier:
         pass
 
 
-    def pretrain(self, X, y, X_val, y_val, batch_size=4, epochs=100, notes=""):
+    def pretrain(self, X, y, X_val, y_val, batch_size=32, epochs=100, notes=""):
         self.model.summary()
         if self.pretext_output == 'magnitudes':
+
+            with tf.device("CPU"):
+                train = tf.keras.Dataset.from_tensor_slices((X, y/MAG_MAX)).batch(batch_size)
+                validate = tf.keras.Dataset.from_tensor_slices((X_val, y_val/MAG_MAX)).batch(batch_size)
+
             history = self.model.fit(
-                X,y/MAG_MAX,
-                validation_data = (X_val, y_val/MAG_MAX),
+                train,
+                validation_data = validate,
                 batch_size = batch_size,
                 epochs = epochs,
                 callbacks =  self.callbacks,
