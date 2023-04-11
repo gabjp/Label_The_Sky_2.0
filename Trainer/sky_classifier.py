@@ -84,7 +84,7 @@ class SkyClassifier:
         pass
 
 
-    def pretrain(self, X, y, X_val, y_val, batch_size=32, epochs=100, notes=""):
+    def pretrain(self, X, y, X_val, y_val, batch_size=0, epochs=100, notes=""):
         self.model.summary()
         if self.pretext_output == 'magnitudes':
             history = self.model.fit(
