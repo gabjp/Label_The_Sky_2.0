@@ -8,9 +8,9 @@ def main():
     print("Loading Data", flush=True)
     ds_name = 'unl_w99'
     data = load_data(ds_name, False)
-    X,y = data['images_train'], data['tabular_train']
-    X_val,y_val = data['images_val'], data['tabular_val']
-    X_test,y_test = data['images_test'], data['tabular_test']
+    X,y = data['images_train'], data['tabular_train'][:,0:12]
+    X_val,y_val = data['images_val'], data['tabular_val'][:,0:12]
+    X_test,y_test = data['images_test'], data['tabular_test'][:,0:12]
     print("Loaded Data", flush=True)
 
     lr = float(sys.argv[1])
