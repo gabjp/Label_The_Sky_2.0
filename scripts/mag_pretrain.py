@@ -7,7 +7,7 @@ import tensorflow as tf
 def main():
     print("Loading Data", flush=True)
     ds_name = 'unl_w99'
-    data = load_data(ds_name, True)
+    data = load_data(ds_name, False)
     X,y = data['images_train'], data['magnitudes_train']
     X_val,y_val = data['images_val'], data['magnitudes_val']
     X_test,y_test = data['images_test'], data['magnitudes_test']
