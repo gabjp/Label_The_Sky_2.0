@@ -165,12 +165,12 @@ class SkyClassifier:
         else:
             raise ValueError("You need to pretrain/finetune a model with pretext_output != none")
 
-    def finetune(self, X, y, X_val, y_val,f_opt ,batch_size=32, w_epochs=10, f_epochs= 100, notes=""):
-        self.train(X,y,X_val,y_val, batch_size=batch_size, epochs=w_epochs)
+    def finetune(self, X, y, X_val, y_val,f_opt ,batch_size=32, w_epochs=10, f_epochs= 100, notes=None):
+        self.train(X,y,X_val,y_val, batch_size=batch_size, epochs=w_epochs, notes=notes)
         for layer in self.model.layers:
             layer.trainable = True
         self.model.compile(metrics = ["accuracy"], loss="categorical_crossentropy", optimizer = f_opt)
-        self.train(X,y,X_val,y_val, batch_size=batch_size, epochs=f_epochs)
+        self.train(X,y,X_val,y_val, batch_size=batch_size, epochs=f_epochs, notes=notes)
 
     def load_model(self, weights_path = None, finetune=False):
 
