@@ -148,9 +148,13 @@ class SkyClassifier:
             class_weights = {0:class_weights[0],1:class_weights[1],2:class_weights[2]}
             self.model.summary()
 
+            with tf.device("CPU"):
+                train = tf.data.Dataset.from_tensor_slices((X, tf.keras.utils.to_categorical(y))).batch(batch_size)
+                validate = tf.data.Dataset.from_tensor_slices((X_val, tf.keras.utils.to_categorical(y_val))).batch(batch_size)
+
             history = self.model.fit(
-                X, tf.keras.utils.to_categorical(y),
-                validation_data=(X_val, tf.keras.utils.to_categorical(y_val)),
+                train,
+                validation_data=validate,
                 batch_size=batch_size,
                 epochs=epochs,
                 callbacks=self.callbacks,
