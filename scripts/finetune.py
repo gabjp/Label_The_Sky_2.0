@@ -14,7 +14,7 @@ def main():
     wise_val, wise_test = data['wiseflags_val'], data['wiseflags_test'] 
     print("Loaded Data", flush=True)
 
-    weights_path = "../outs/vgg16_pretrain_mags_lr:0.0001_l2:0.0_dropout:0.5/vgg16_pretrain_mags_lr:0.0001_l2:0.0_dropout:0.5.h5"
+    weights_path = "../outs/vgg16_pretrain_mags_lr:0.0001_l2:0.0_dropout:0.5/vgg16_pretrain_mags_lr:0.0001_l2:0.0_dropout:0.5"
     w_lr = float(sys.argv[1])
     f_lr = float(sys.argv[2])
     l2 = float(sys.argv[3])
