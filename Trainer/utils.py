@@ -76,7 +76,7 @@ def save_plots(history, save_folder, model_name):
         plt.clf()
 
 def pretrain_eval_string(mag_mae, mae):
-  return str(dict(zip(BANDS, mag_mae))) + "\n" + "MAE: " + mae
+  return str(dict(zip(BANDS, mag_mae))) + "\n" + "MAE: " + str(mae)
 
    
 

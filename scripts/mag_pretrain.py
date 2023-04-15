@@ -23,7 +23,7 @@ def main():
     
     opt = tf.keras.optimizers.Adam(learning_rate=lr)
     model.build_model(l2=l2, dropout=dpout, opt=opt)
-    model.pretrain(X, y, X_val=X_val, y_val=y_val, notes = f"lr: {lr}, l2: {l2}, dropout: {dpout}", epochs=100)
+    model.pretrain(X, y, X_val=X_val, y_val=y_val, notes = f"lr: {lr}, l2: {l2}, dropout: {dpout}", epochs=20)
     model.load_model()
     model.eval_pretrain(X_val, y_val, "unl_w99_val")
     model.eval_pretrain(X_test, y_test, "unl_w99_test")
