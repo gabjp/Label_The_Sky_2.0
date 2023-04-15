@@ -40,7 +40,7 @@ class SkyClassifier:
                     monitor='val_loss', save_best_only=True, save_weights_only=True, mode='min')
             ] if self.save else None
 
-    def build_model(self, **kwargs):
+    def build_model(self, to_finetune = False, **kwargs):
         if self.model_type == "RF":
             self.model = RandomForestClassifier(random_state = SEED, **kwargs)
             
@@ -53,6 +53,11 @@ class SkyClassifier:
             dropout = kwargs['dropout'] if 'dropout' in kwargs.keys() else 0
 
             self.model = vgg16(self.wise, l2)
+
+            if to_finetune:
+                for layer in self.model.layers:
+                    layer.trainable = False
+
             if self.pretext_output == None:
                 self.model.add(tf.keras.layers.Dropout(dropout))
                 self.model.add(tf.keras.layers.Dense(1024, kernel_regularizer = tf.keras.regularizers.l2(l2)))
@@ -75,14 +80,10 @@ class SkyClassifier:
 
             elif self.pretext_output == 'images':
                 pass
+
             
             if 'opt' not in kwargs.keys(): raise ValueError("missing opt paramenter (with learning rate)") 
             self.model.compile(metrics = metrics, loss=loss, optimizer = kwargs["opt"]) # expects optimizer (with learning rate)
-
-
-    def finetune(self, X, y, X_val, y_val, batch_size=32, epochs=32, notes=""):
-        pass
-
 
     def pretrain(self, X, y, X_val, y_val, batch_size=32, epochs=100, notes=""):
         self.model.summary()
@@ -164,8 +165,14 @@ class SkyClassifier:
         else:
             raise ValueError("You need to pretrain/finetune a model with pretext_output != none")
 
+    def finetune(self, X, y, X_val, y_val,f_opt ,batch_size=32, w_epochs=10, f_epochs= 100, notes=""):
+        self.train(X,y,X_val,y_val, batch_size=batch_size, epochs=w_epochs)
+        for layer in self.model.layers:
+            layer.trainable = True
+        self.model.compile(metrics = ["accuracy"], loss="categorical_crossentropy", optimizer = f_opt)
+        self.train(X,y,X_val,y_val, batch_size=batch_size, epochs=f_epochs)
 
-    def load_model(self, weights_path = None ):
+    def load_model(self, weights_path = None, finetune=False):
 
         weights_path = self.model_folder + self.model_name if weights_path == None else weights_path
 
@@ -173,7 +180,10 @@ class SkyClassifier:
             self.model = joblib.load(weights_path + '.sav')
         
         elif self.model_type == "vgg16":
-            self.model.load_weights(weights_path + '.h5')
+            if finetune:
+                self.model.load_weights(weights_path + '.h5', by_name=True, skip_mismatch=True)
+            else:
+                self.model.load_weights(weights_path + '.h5')
 
     def eval(self, X, y, ds_name, wise_flags = None):
         if self.model_type == "RF":

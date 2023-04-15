@@ -1,5 +1,6 @@
 import tensorflow as tf
 from matplotlib import pyplot as plt
+import os
 MAG_MAX = 35
 
 BANDS = ["U",
@@ -65,14 +66,16 @@ def save_plots(history, save_folder, model_name):
 
     vals = [('loss', loss_path),('accuracy', acc_path)] if 'accuracy' in history.history.keys() else [('loss', loss_path)]
 
-    for (metric, path) in vals:
+    for (metric, s_path) in vals:
         plt.plot(history.history[metric])
         plt.plot(history.history[f"val_{metric}"])
         plt.title(model_name)
         plt.ylabel(metric)
         plt.xlabel('epoch')
         plt.legend(['train', 'val'], loc='upper left')
-        plt.savefig(path)
+        if os.path.exists(s_path):
+           s_path = s_path[0:-4] + "_f.png"
+        plt.savefig(s_path)
         plt.clf()
 
 def pretrain_eval_string(mag_mae, mae):
