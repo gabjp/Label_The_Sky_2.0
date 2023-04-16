@@ -5,3 +5,4 @@
                     python finetune.py 0.0001 0.00001 $l2 $dpout 
                 done
             done
+    

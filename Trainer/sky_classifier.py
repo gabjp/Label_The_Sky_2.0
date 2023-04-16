@@ -4,7 +4,7 @@ import os
 from sklearn.ensemble import RandomForestClassifier
 import joblib
 from sklearn.metrics import classification_report
-from Trainer.utils import eval_string, log_string, vgg16, save_plots, CustomMAE, MAG_MAX, pretrain_eval_string
+from Trainer.utils import eval_string, log_string, vgg16, save_plots, CustomMAE, MAG_MAX, pretrain_eval_string, vgg16_decoder
 import tensorflow as tf
 from sklearn.utils.class_weight import compute_class_weight
 
@@ -52,13 +52,14 @@ class SkyClassifier:
             l2 = kwargs['l2'] if 'l2' in kwargs.keys() else 0
             dropout = kwargs['dropout'] if 'dropout' in kwargs.keys() else 0
 
-            self.model = vgg16(self.wise, l2)
-
-            if to_finetune:
-                for layer in self.model.layers:
-                    layer.trainable = False
-
             if self.pretext_output == None:
+                self.model = vgg16(self.wise, l2)
+
+                if to_finetune:
+                    for layer in self.model.layers:
+                        layer.trainable = False
+
+                self.model.add(tf.keras.layers.GlobalAveragePooling2D()),
                 self.model.add(tf.keras.layers.Dropout(dropout))
                 self.model.add(tf.keras.layers.Dense(1024, kernel_regularizer = tf.keras.regularizers.l2(l2)))
                 self.model.add(tf.keras.layers.LeakyReLU())
@@ -66,7 +67,10 @@ class SkyClassifier:
                 loss = "categorical_crossentropy"
                 metrics = ["accuracy"]
 
-            elif self.pretext_output == 'magnitudes': 
+            elif self.pretext_output == 'magnitudes':
+                self.model = vgg16(self.wise, l2)
+
+                self.model.add(tf.keras.layers.GlobalAveragePooling2D()), 
                 self.model.add(tf.keras.layers.Dropout(dropout))
                 self.model.add(tf.keras.layers.Dense(1024, kernel_regularizer = tf.keras.regularizers.l2(l2)))
                 self.model.add(tf.keras.layers.LeakyReLU())
@@ -79,7 +83,11 @@ class SkyClassifier:
                 metrics = None
 
             elif self.pretext_output == 'images':
-                pass
+                self.encoder = vgg16(self.wise, l2)
+                self.decoder = vgg16_decoder(self.wise, l2)
+                self.model = tf.keras.Sequential([self.encoder, self.decoder])
+                loss = "mae"
+                metrics = None
 
             
             if 'opt' not in kwargs.keys(): raise ValueError("missing opt paramenter (with learning rate)") 
@@ -92,23 +100,29 @@ class SkyClassifier:
             with tf.device("CPU"):
                 train = tf.data.Dataset.from_tensor_slices((X, y/MAG_MAX)).batch(batch_size)
                 validate = tf.data.Dataset.from_tensor_slices((X_val, y_val/MAG_MAX)).batch(batch_size)
-
-            history = self.model.fit(
-                train,
-                validation_data = validate,
-                batch_size = batch_size,
-                epochs = epochs,
-                callbacks =  self.callbacks,
-                verbose=2
-            )
-
-            if self.save:
-                with open(self.model_folder + 'log', 'w') as log:
-                    log.write(log_string(self.model_type, self.model_name, self.wise, self.model.to_json() , notes))
-                save_plots(history, self.model_folder, self.model_name)
         
         elif self.pretext_output == 'images':
-            pass
+
+            with tf.device("CPU"):
+                train = tf.data.Dataset.from_tensor_slices((X, y)).batch(batch_size)
+                validate = tf.data.Dataset.from_tensor_slices((X_val, y_val)).batch(batch_size)
+
+        history = self.model.fit(
+            train,
+            validation_data = validate,
+            batch_size = batch_size,
+            epochs = epochs,
+            callbacks =  self.callbacks,
+            verbose=2
+        )
+
+        if self.save:
+            with open(self.model_folder + 'log', 'w') as log:
+                log.write(log_string(self.model_type, self.model_name, self.wise, self.model.to_json() , notes))
+            save_plots(history, self.model_folder, self.model_name)
+
+            
+            
 
     def eval_pretrain(self, X, y, ds_name):
         
@@ -122,7 +136,12 @@ class SkyClassifier:
             output = pretrain_eval_string(mag_mae, mae)
 
         elif self.pretext_output == "images":
-            pass
+            y_hat = self.model.predict(X) 
+            err = np.abs(y-y_hat)
+            mag_mae = err.mean(axis=(0,1,3))
+            mae = mag_mae.mean()
+
+            output = pretrain_eval_string(mag_mae, mae)
 
         if self.save:
             with open(self.model_folder + ds_name + '.results', 'w') as results:
