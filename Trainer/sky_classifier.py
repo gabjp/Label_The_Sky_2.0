@@ -120,6 +120,9 @@ class SkyClassifier:
             verbose=2
         )
 
+        self.load_model()
+        self.decoder.save_weights("decoder.h5")
+
         if self.save:
             with open(self.model_folder + 'log', 'w') as log:
                 log.write(log_string(self.model_type, self.model_name, self.wise, self.model.to_json() , notes))
@@ -128,7 +131,7 @@ class SkyClassifier:
             
             
 
-    def eval_pretrain(self, X, y, ds_name):
+    def eval_pretrain(self, X, y, ds_name, save_img= False):
         
         if self.pretext_output == "magnitudes":
 
@@ -147,8 +150,9 @@ class SkyClassifier:
 
             output = pretrain_eval_string(mag_mae, mae)
 
-            for i in range(5):
-                save_sample(self.model_folder, str(i), y[i], y_hat[i])
+            if save_img:
+                for i in range(5):
+                    save_sample(self.model_folder, str(i), y[i], y_hat[i])
 
         if self.save:
             with open(self.model_folder + ds_name + '.results', 'w') as results:
