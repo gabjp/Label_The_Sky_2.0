@@ -86,6 +86,7 @@ class SkyClassifier:
                 self.encoder = vgg16(self.wise, l2)
                 self.decoder = vgg16_decoder(self.wise, l2)
                 self.model = tf.keras.Sequential([self.encoder, self.decoder])
+                self.model.build()
                 loss = "mae"
                 metrics = None
 
