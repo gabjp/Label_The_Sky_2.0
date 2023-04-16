@@ -139,7 +139,7 @@ class SkyClassifier:
         elif self.pretext_output == "images":
             y_hat = self.model.predict(X) 
             err = np.abs(y-y_hat)
-            mag_mae = err.mean(axis=(0,1,3))
+            mag_mae = err.mean(axis=(0,1,2)) # (n,32,32,12)
             mae = mag_mae.mean()
 
             output = pretrain_eval_string(mag_mae, mae)
