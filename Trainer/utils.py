@@ -92,7 +92,7 @@ def vgg16_decoder(wise,l2):
     tf.keras.layers.UpSampling2D(size=(2,2)),
     tf.keras.layers.Conv2DTranspose(64, kernel_size=(3,3), padding="same", kernel_regularizer = tf.keras.regularizers.l2(l2)),
     tf.keras.layers.LeakyReLU(),
-    tf.keras.layers.Conv2DTranspose(64, kernel_size=(3,3), padding="same", kernel_regularizer = tf.keras.regularizers.l2(l2)),
+    tf.keras.layers.Conv2DTranspose(n_channels, kernel_size=(3,3), padding="same", kernel_regularizer = tf.keras.regularizers.l2(l2)),
     tf.keras.layers.LeakyReLU(),
     tf.keras.layers.Reshape([32,32,n_channels])
   ])
