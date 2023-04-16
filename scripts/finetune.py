@@ -20,8 +20,10 @@ def main():
     l2 = float(sys.argv[3])
     dpout = float(sys.argv[4])
 
-    print(f"vgg16_finetune_img_l2_{l2}_dt_{dpout}", flush=True)
-    model = SkyClassifier(f"vgg16", f"vgg16_finetune_img_l2_{l2}_dropout_{dpout}", False)
+    model_name = f"vgg16_finetune_img_flr_{f_lr}_l2_{l2}_dt_{dpout}"
+
+    print(model_name, flush=True)
+    model = SkyClassifier("vgg16", model_name, False)
 
     opt = tf.keras.optimizers.Adam(learning_rate=w_lr)
     model.build_model(to_finetune=True ,l2=l2, dropout=dpout, opt=opt)
