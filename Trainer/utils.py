@@ -62,7 +62,7 @@ def vgg16(wise, l2):
 def vgg16_decoder(wise,l2):
   n_channels = 14 if wise else 12
   return tf.keras.Sequential([
-    tf.keras.layers.InputLayer(input_shape=(1,1,n_channels)), # ESTRANHO PARECE POUCA INFORMAÇÂO
+    tf.keras.layers.InputLayer(input_shape=(1,1,512)), 
     tf.keras.layers.UpSampling2D(size=(2,2)),
     tf.keras.layers.Conv2DTranspose(512, kernel_size=(3,3), padding="same", kernel_regularizer = tf.keras.regularizers.l2(l2)),
     tf.keras.layers.LeakyReLU(),
