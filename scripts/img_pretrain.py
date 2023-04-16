@@ -17,7 +17,7 @@ def main():
     l2 = float(sys.argv[2])
 
     print(f"vgg16_pretrain_img_lr_{lr}_l2_{l2}", flush=True)
-    model = SkyClassifier(f"vgg16_pretrain_img_lr_{lr}_l2_{l2}",
+    model = SkyClassifier("vgg16",f"vgg16_pretrain_img_lr_{lr}_l2_{l2}",
                            False, pretext_output='images')
     
     opt = tf.keras.optimizers.Adam(learning_rate=lr)
