@@ -4,7 +4,7 @@ import os
 from sklearn.ensemble import RandomForestClassifier
 import joblib
 from sklearn.metrics import classification_report
-from Trainer.utils import eval_string, log_string, vgg16, save_plots, CustomMAE, MAG_MAX, pretrain_eval_string, vgg16_decoder
+from Trainer.utils import eval_string, log_string, vgg16, save_plots, CustomMAE, MAG_MAX, pretrain_eval_string, vgg16_decoder, save_sample
 import tensorflow as tf
 from sklearn.utils.class_weight import compute_class_weight
 
@@ -146,6 +146,9 @@ class SkyClassifier:
             mae = mag_mae.mean()
 
             output = pretrain_eval_string(mag_mae, mae)
+            
+            for i in range(5):
+                save_sample(self.model_folder, i, y[i], y_hat[i])
 
         if self.save:
             with open(self.model_folder + ds_name + '.results', 'w') as results:

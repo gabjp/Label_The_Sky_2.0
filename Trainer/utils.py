@@ -1,6 +1,7 @@
 import tensorflow as tf
 from matplotlib import pyplot as plt
 import os
+import numpy as np
 MAG_MAX = 35
 
 BANDS = ["U",
@@ -118,6 +119,29 @@ def save_plots(history, save_folder, model_name):
 
 def pretrain_eval_string(mag_mae, mae):
   return str(dict(zip(BANDS, mag_mae))) + "\n" + "MAE: " + str(mae)
+
+def plot_matrices(matrix1, matrix2, save_path):
+    vmin = min(np.min(matrix1), np.min(matrix2))
+    vmax = max(np.max(matrix1), np.max(matrix2))
+
+    fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(10, 5))
+
+    im1 = ax1.imshow(matrix1, cmap='viridis', vmin=vmin, vmax=vmax)
+    ax1.set_title('True')
+    cbar1 = fig.colorbar(im1, ax=ax1)
+
+    im2 = ax2.imshow(matrix2, cmap='viridis', vmin=vmin, vmax=vmax)
+    ax2.set_title('Pred')
+    cbar2 = fig.colorbar(im2, ax=ax2)
+
+    plt.savefig(save_path)
+
+def save_sample(model_folder,folder_name ,true, pred):
+  folder = model_folder + folder_name + "/"
+  os.mkdir(folder)
+  for i in range(true.shape[-1]):
+    plot_matrices(true[:,:,i], pred[:,:,i], folder+BANDS[i]+".png")
+      
 
    
 
