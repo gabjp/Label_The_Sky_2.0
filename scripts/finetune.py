@@ -14,13 +14,13 @@ def main():
     wise_val, wise_test = data['wiseflags_val'], data['wiseflags_test'] 
     print("Loaded Data", flush=True)
 
-    weights_path = "../outs/vgg16_pretrain_mags_lr_0.0001_l2_0.0_dt_0.5/vgg16_pretrain_mags_lr_0.0001_l2_0.0_dt_0.5"
+    weights_path = "../outs/vgg16mod_pretrain_mags_lr_0.0001_l2_0.0007_dt_0.5/vgg16mod_pretrain_mags_lr_0.0001_l2_0.0007_dt_0.5"
     w_lr = float(sys.argv[1])
     f_lr = float(sys.argv[2])
     l2 = float(sys.argv[3])
     dpout = float(sys.argv[4])
 
-    model_name = f"vgg16_finetune_img_flr_{f_lr}_l2_{l2}_dt_{dpout}"
+    model_name = f"vgg16mod_finetune_img_flr_{f_lr}_l2_{l2}_dt_{dpout}"
 
     print(model_name, flush=True)
     model = SkyClassifier("vgg16", model_name, False)

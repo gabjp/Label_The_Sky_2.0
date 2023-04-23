@@ -16,9 +16,10 @@ def main():
     lr = float(sys.argv[1])
     l2 = float(sys.argv[2])
     dpout = float(sys.argv[3])
+    model_name = f"vgg16mod_pretrain_mags_lr_{lr}_l2_{l2}_dt_{dpout}"
 
-    print(f"vgg16_pretrain_mags_lr_{lr}_l2_{l2}_dt_{dpout}", flush=True)
-    model = SkyClassifier("vgg16", f"vgg16_pretrain_mags_lr_{lr}_l2_{l2}_dt_{dpout}",
+    print(model_name, flush=True)
+    model = SkyClassifier("vgg16", model_name,
                            False, pretext_output='magnitudes')
     
     opt = tf.keras.optimizers.Adam(learning_rate=lr)

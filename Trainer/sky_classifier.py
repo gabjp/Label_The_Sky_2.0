@@ -59,8 +59,11 @@ class SkyClassifier:
                     for layer in self.model.layers:
                         layer.trainable = False
 
-                self.model.add(tf.keras.layers.GlobalAveragePooling2D()),
+                self.model.add(tf.keras.layers.Flatten()),
                 self.model.add(tf.keras.layers.Dense(1024, kernel_regularizer = tf.keras.regularizers.l2(l2)))
+                self.model.add(tf.keras.layers.LeakyReLU())
+                self.model.add(tf.keras.layers.Dropout(dropout))
+                self.model.add(tf.keras.layers.Dense(512, kernel_regularizer = tf.keras.regularizers.l2(l2)))
                 self.model.add(tf.keras.layers.LeakyReLU())
                 self.model.add(tf.keras.layers.Dropout(dropout))
                 self.model.add(tf.keras.layers.Dense(3, activation='softmax'))
@@ -70,8 +73,11 @@ class SkyClassifier:
             elif self.pretext_output == 'magnitudes':
                 self.model = vgg16(self.wise, l2)
 
-                self.model.add(tf.keras.layers.GlobalAveragePooling2D()), 
+                self.model.add(tf.keras.layers.Flatten()),
                 self.model.add(tf.keras.layers.Dense(1024, kernel_regularizer = tf.keras.regularizers.l2(l2)))
+                self.model.add(tf.keras.layers.LeakyReLU())
+                self.model.add(tf.keras.layers.Dropout(dropout))
+                self.model.add(tf.keras.layers.Dense(512, kernel_regularizer = tf.keras.regularizers.l2(l2)))
                 self.model.add(tf.keras.layers.LeakyReLU())
                 self.model.add(tf.keras.layers.Dropout(dropout))
                 if self.wise :

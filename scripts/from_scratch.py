@@ -14,17 +14,13 @@ def main():
     wise_val, wise_test = data['wiseflags_val'], data['wiseflags_test'] 
     print("Loaded Data", flush=True)
 
-    #for bsize in [32,64]:
-    #    for lr in [1e-4,1e-5]:
-    #        for l2 in [0,0.0007]:
-    #            for dpout in [0.2,0,0.5]:
-
     lr = float(sys.argv[1])
     l2 = float(sys.argv[2])
     dpout = float(sys.argv[3])
+    model_name = f"vgg16mod_from_scratch_lr_{lr}_l2_{l2}_dt_{dpout}"
 
-    print(f"vgg16_from_scratch_lr_{lr}_l2_{l2}_dt_{dpout}", flush=True)
-    model = SkyClassifier(f"vgg16", f"vgg16_from_scratch_lr:{lr}_l2:{l2}_dropout:{dpout}", False)
+    print(model_name, flush=True)
+    model = SkyClassifier(f"vgg16", model_name, False)
     opt = tf.keras.optimizers.Adam(learning_rate=lr)
     model.build_model(l2=l2, dropout=dpout, opt=opt)
     model.train(X, y, X_val=X_val, y_val=y_val, notes = f"lr: {lr}, l2: {l2}, dropout: {dpout}", epochs=100)
