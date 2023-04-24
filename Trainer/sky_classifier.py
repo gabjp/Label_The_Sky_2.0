@@ -127,7 +127,8 @@ class SkyClassifier:
         )
 
         self.load_model()
-        self.decoder.save_weights(self.model_folder+"decoder.h5")
+        if self.pretext_output == "images":
+            self.decoder.save_weights(self.model_folder+"decoder.h5")
 
         if self.save:
             with open(self.model_folder + 'log', 'w') as log:
