@@ -2,7 +2,7 @@
 
 for lr in 0.0001 0.0005; do
     for dpout in 0 0.3 0.5; do
-        python img_pretrain.py $lr $dpout
+        python from_scratch.py $lr 0 $dpout
     done
 done
 
