@@ -20,7 +20,7 @@ def main():
     l2 = float(sys.argv[3])
     dpout = float(sys.argv[4])
 
-    model_name = f"vgg16mod_finetune_img_flr_{f_lr}_l2_{l2}_dt_{dpout}"
+    model_name = f"vgg16mod_finetune_img_wlr_{w_lr}flr_{f_lr}_l2_{l2}_dt_{dpout}"
 
     print(model_name, flush=True)
     model = SkyClassifier("vgg16", model_name, False)
