@@ -8,7 +8,7 @@ import numpy as np
 def main():
     print("Loading Data", flush=True)
     ds_name = 'clf_90_5_5'
-    data = load_data(ds_name, False)
+    data = load_data(ds_name, True)
     X,y = data['images_train'], data['images_train']
     X_val,y_val = data['images_val'], data['images_val']
     X_test,y_test = data['images_test'], data['images_test']
