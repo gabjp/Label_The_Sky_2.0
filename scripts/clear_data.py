@@ -29,13 +29,20 @@ def main():
 
     model.load_model()
     
+    print("model ready", flush=True)
     clean_X = model.predict(X)
+    print("train done", flush=True)
     clean_X_val = model.predict(X_val)
+    print("val done", flush=True)
     clean_X_test = model.predict(X_test)
+    print("test done", flush=True)
 
     np.save('./../Data/ready/clf/clf_90_5_5_clean-images_train.npy', clean_X)
+    print("train saved", flush=True)
     np.save('./../Data/ready/clf/clf_90_5_5_clean-images_test.npy', clean_X_test)
+    print("test saved", flush=True)
     np.save('./../Data/ready/clf/clf_90_5_5_clean-images_val.npy', clean_X_val)
+    print("val saved", flush=True)
 
 if __name__ == "__main__":
     main()
