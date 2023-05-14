@@ -30,7 +30,7 @@ def main():
     model.load_model()
 
     with tf.device("CPU"):
-        X = tf.data.Dataset.from_tensor_slices(X[30000:60000]).batch(1)
+        X = tf.data.Dataset.from_tensor_slices(X[60000:90000]).batch(1)
         #X_val = tf.data.Dataset.from_tensor_slices(X_val).batch(1)
         #X_test = tf.data.Dataset.from_tensor_slices(X_test).batch(1)
         
@@ -44,7 +44,7 @@ def main():
     print("test done", flush=True)
 
     print(clean_X.shape)
-    np.save('./../Data/ready/clf/temp2.npy', clean_X)
+    np.save('./../Data/ready/clf/temp3.npy', clean_X)
     #np.save('./../Data/ready/clf/clf_90_5_5_clean-images_train.npy', clean_X)
     print("train saved", flush=True)
     #np.save('./../Data/ready/clf/clf_90_5_5_clean-images_test.npy', clean_X_test)
