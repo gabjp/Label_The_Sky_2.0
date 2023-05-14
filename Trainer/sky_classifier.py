@@ -245,7 +245,7 @@ class SkyClassifier:
                 
         print(output)
         
-    def predict(X, self):
+    def predict(self, X):
         pred = self.model.predict(X)
         return pred
 
