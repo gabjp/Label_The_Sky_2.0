@@ -28,6 +28,12 @@ def main():
     model.build_model(l2=l2, opt=opt)
 
     model.load_model()
+
+    with tf.device("CPU"):
+        clean_X = tf.data.Dataset.from_tensor_slices(clean_X).batch(32)
+        clean_X_val = tf.data.Dataset.from_tensor_slices(clean_X_val).batch(32)
+        clean_X_test = tf.data.Dataset.from_tensor_slices(clean_X_test).batch(32)
+        
     
     print("model ready", flush=True)
     clean_X = model.predict(X)
