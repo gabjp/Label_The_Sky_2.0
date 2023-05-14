@@ -30,9 +30,9 @@ def main():
     model.load_model()
 
     with tf.device("CPU"):
-        clean_X = tf.data.Dataset.from_tensor_slices(clean_X).batch(32)
-        clean_X_val = tf.data.Dataset.from_tensor_slices(clean_X_val).batch(32)
-        clean_X_test = tf.data.Dataset.from_tensor_slices(clean_X_test).batch(32)
+        X = tf.data.Dataset.from_tensor_slices(X).batch(32)
+        X_val = tf.data.Dataset.from_tensor_slices(X_val).batch(32)
+        X_test = tf.data.Dataset.from_tensor_slices(X_test).batch(32)
         
     
     print("model ready", flush=True)
