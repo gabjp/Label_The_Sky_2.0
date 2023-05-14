@@ -30,30 +30,24 @@ def main():
     model.load_model()
 
     with tf.device("CPU"):
-        X = tf.data.Dataset.from_tensor_slices(X[90000:]).batch(1)
-        #X_val = tf.data.Dataset.from_tensor_slices(X_val).batch(1)
-        #X_test = tf.data.Dataset.from_tensor_slices(X_test).batch(1)
+        #X = tf.data.Dataset.from_tensor_slices(X).batch(1)
+        X_val = tf.data.Dataset.from_tensor_slices(X_val).batch(1)
+        X_test = tf.data.Dataset.from_tensor_slices(X_test).batch(1)
         
     
     print("model ready", flush=True)
-    clean_X = model.predict(X)
+    #clean_X = model.predict(X)
     print("train done", flush=True)
-    #clean_X_val = model.predict(X_val)
+    clean_X_val = model.predict(X_val)
     print("val done", flush=True)
-    #clean_X_test = model.predict(X_test)
+    clean_X_test = model.predict(X_test)
     print("test done", flush=True)
 
-    temp1 = np.load('./../Data/ready/clf/temp1.npy')
-    temp2 = np.load('./../Data/ready/clf/temp2.npy')
-    temp3 = np.load('./../Data/ready/clf/temp3.npy')
-    clean_X = np.concatenate((temp1, temp2, temp3, clean_X), axis=0)
-
-    print(clean_X.shape)
-    np.save('./../Data/ready/clf/clf_90_5_5_clean-images_train.npy', clean_X)
+    #np.save('./../Data/ready/clf/clf_90_5_5_clean-images_train.npy', clean_X)
     print("train saved", flush=True)
-    #np.save('./../Data/ready/clf/clf_90_5_5_clean-images_test.npy', clean_X_test)
+    np.save('./../Data/ready/clf/clf_90_5_5_clean-images_test.npy', clean_X_test)
     print("test saved", flush=True)
-    #np.save('./../Data/ready/clf/clf_90_5_5_clean-images_val.npy', clean_X_val)
+    np.save('./../Data/ready/clf/clf_90_5_5_clean-images_val.npy', clean_X_val)
     print("val saved", flush=True)
 
 if __name__ == "__main__":
