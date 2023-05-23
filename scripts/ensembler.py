@@ -27,7 +27,7 @@ def generate_data():
         print(f"Training RF_{i}", flush=True)
         rf = SkyClassifier("RF", f"RF_{i}", True, save=False)
         rf.build_model(n_estimators=100, bootstrap=False)
-        rf.train(data["tabular_train"][train_index], data["class_train"][gen_index])
+        rf.train(data["tabular_train"][train_index], data["class_train"][train_index])
         probs = rf.predict_proba(data["tabular_train"][gen_index])
 
         RF_pred = np.concatenate((RF_pred, probs), axis = 0)
@@ -45,7 +45,7 @@ def generate_data():
         vgg.build_model(to_finetune=True ,l2=0, dropout=0.3, opt=opt)
         vgg.load_model(weights_path= weights_path, finetune=True)
         opt = tf.keras.optimizers.Adam(learning_rate=0.00001)
-        vgg.finetune(data["image_train"][train_index], data["class_train"][gen_index],
+        vgg.finetune(data["image_train"][train_index], data["class_train"][train_index],
                       data["image_val"], data["class_val"], opt, f_epochs=100)
         vgg.load_model()
 
