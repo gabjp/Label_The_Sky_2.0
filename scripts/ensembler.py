@@ -16,7 +16,7 @@ def generate_data():
     data = load_data(ds_name, True, True)
     print("Loaded Data", flush=True)
 
-    skf = StratifiedKFold(n_splits=5, shuffle=False, random_state=2)
+    skf = StratifiedKFold(n_splits=5, shuffle=True, random_state=2)
     split = list(skf.split(data["tabular_train"], data["class_train"]))
 
     RF_pred = np.array([]).reshape(0,3)
