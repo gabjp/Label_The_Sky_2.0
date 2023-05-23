@@ -20,8 +20,8 @@ def generate_data():
     split = list(skf.split(data["tabular_train"], data["class_train"]))
 
     RF_pred = np.array([]).reshape(0,3)
-    target = np.array([]).reshape(0,1)
-    wise_flags = np.array([]).reshape(0,1)
+    target = np.array([])
+    wise_flags = np.array([])
 
     for i, (train_index, gen_index) in enumerate(split):
         print(f"Training RF_{i}", flush=True)
