@@ -223,8 +223,10 @@ class SkyClassifier:
         elif self.model_type == "vgg16":
             if finetune:
                 self.model.load_weights(weights_path + '.h5', by_name=True, skip_mismatch=True)
+                print("Loaded weights to finetune", flush = True)
             else:
                 self.model.load_weights(weights_path + '.h5')
+                print("Loaded weights to evaluate", flush = True)
 
     def eval(self, X, y, ds_name, wise_flags = None):
         if self.model_type == "RF":
