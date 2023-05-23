@@ -25,16 +25,16 @@ def generate_data():
     target = np.array([])
     wise_flags = np.array([])
 
-    for i, (train_index, gen_index) in enumerate(split):
-        print(f"Training RF_{i}", flush=True)
-        rf = SkyClassifier("RF", f"RF_{i}", True, save=False)
-        rf.build_model(n_estimators=100, bootstrap=False)
-        rf.train(data["tabular_train"][train_index], data["class_train"][train_index])
-        probs = rf.predict_proba(data["tabular_train"][gen_index])
+    #for i, (train_index, gen_index) in enumerate(split):
+    #    print(f"Training RF_{i}", flush=True)
+    #    rf = SkyClassifier("RF", f"RF_{i}", True, save=False)
+    #    rf.build_model(n_estimators=100, bootstrap=False)
+    #    rf.train(data["tabular_train"][train_index], data["class_train"][train_index])
+    #    probs = rf.predict_proba(data["tabular_train"][gen_index])
 
-        RF_pred = np.concatenate((RF_pred, probs), axis = 0)
-        target = np.concatenate((target, data["class_train"][gen_index]), axis=0)
-        wise_flags = np.concatenate((wise_flags, data["wiseflags_train"][gen_index]), axis=0)
+    #    RF_pred = np.concatenate((RF_pred, probs), axis = 0)
+    #    target = np.concatenate((target, data["class_train"][gen_index]), axis=0)
+    #    wise_flags = np.concatenate((wise_flags, data["wiseflags_train"][gen_index]), axis=0)
         
     weights_path = "../outs/vgg16mod_pretrain_mags_lr_1e-05_l2_0.0_dt_0.0/vgg16mod_pretrain_mags_lr_1e-05_l2_0.0_dt_0.0"
 
@@ -47,8 +47,11 @@ def generate_data():
         vgg.build_model(to_finetune=True ,l2=0, dropout=0.3, opt=opt)
         vgg.load_model(weights_path= weights_path, finetune=True)
         opt = tf.keras.optimizers.Adam(learning_rate=0.00001)
+
+        for layer in vgg.layers: print(layer.get_config(), layer.get_weights()[:100]) #debug
+
         vgg.finetune(data["images_train"][train_index], data["class_train"][train_index],
-                      data["images_val"], data["class_val"], opt, f_epochs=10)
+                      data["images_val"], data["class_val"], opt, f_epochs=1)
         vgg.load_model()
 
         probs = vgg.predict(data["images_train"][gen_index])
