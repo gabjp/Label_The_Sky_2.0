@@ -249,5 +249,5 @@ class SkyClassifier:
         pred = self.model.predict(X)
         return pred
 
-    def predict_proba(self):
-        pass
+    def predict_proba(self, X):
+        return self.model.predict_proba(X)
