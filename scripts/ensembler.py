@@ -32,7 +32,7 @@ def generate_data():
 
         RF_pred = np.concatenate((RF_pred, probs), axis = 0)
         target = np.concatenate((target, data["class_train"][gen_index]), axis=0)
-        wise_flags = np.concatenate((wise_flags, data["wise_train"][gen_index]), axis=0)
+        wise_flags = np.concatenate((wise_flags, data["wiseflags_train"][gen_index]), axis=0)
         
     weights_path = "../outs/vgg16mod_pretrain_mags_lr_1e-05_l2_0.0_dt_0.0/vgg16mod_pretrain_mags_lr_1e-05_l2_0.0_dt_0.0"
 
