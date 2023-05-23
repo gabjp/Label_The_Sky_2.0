@@ -45,11 +45,11 @@ def generate_data():
         vgg.build_model(to_finetune=True ,l2=0, dropout=0.3, opt=opt)
         vgg.load_model(weights_path= weights_path, finetune=True)
         opt = tf.keras.optimizers.Adam(learning_rate=0.00001)
-        vgg.finetune(data["image_train"][train_index], data["class_train"][train_index],
-                      data["image_val"], data["class_val"], opt, f_epochs=100)
+        vgg.finetune(data["images_train"][train_index], data["class_train"][train_index],
+                      data["images_val"], data["class_val"], opt, f_epochs=100)
         vgg.load_model()
 
-        probs = vgg.predict(data["image_train"][gen_index])
+        probs = vgg.predict(data["images_train"][gen_index])
         VGG_pred = np.concatenate((VGG_pred, probs), axis = 0)
 
     meta_features = np.concatenate((RF_pred, VGG_pred), axis = 1)
