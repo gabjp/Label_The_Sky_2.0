@@ -1,9 +1,11 @@
 import numpy as np
+import sys
+sys.path.append("..")
 from Trainer.data_manager import load_data, CLF_READY_FOLDER
 from sklearn.model_selection import StratifiedKFold
 from Trainer.sky_classifier import SkyClassifier
 import tensorflow as tf
-import sys
+
 
 PRED_DIR = "../Data/ready/meta/"
 
