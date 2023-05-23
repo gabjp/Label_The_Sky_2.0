@@ -48,7 +48,7 @@ def generate_data():
         vgg.load_model(weights_path= weights_path, finetune=True)
         opt = tf.keras.optimizers.Adam(learning_rate=0.00001)
 
-        for layer in vgg.layers: print(layer.get_config(), layer.get_weights()[:100]) #debug
+        for layer in vgg.model.layers: print(layer.get_config(), layer.get_weights()[:100]) #debug
 
         vgg.finetune(data["images_train"][train_index], data["class_train"][train_index],
                       data["images_val"], data["class_val"], opt, f_epochs=1)
