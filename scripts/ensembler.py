@@ -48,7 +48,7 @@ def generate_data():
         vgg.load_model(weights_path= weights_path, finetune=True)
         opt = tf.keras.optimizers.Adam(learning_rate=0.00001)
         vgg.finetune(data["images_train"][train_index], data["class_train"][train_index],
-                      data["images_val"], data["class_val"], opt, f_epochs=100)
+                      data["images_val"], data["class_val"], opt, f_epochs=10)
         vgg.load_model()
 
         probs = vgg.predict(data["images_train"][gen_index])
