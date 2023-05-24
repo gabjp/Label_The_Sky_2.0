@@ -15,8 +15,6 @@ def generate_data():
     ds_name = 'clf_90_5_5'
     data = load_data(ds_name, True, False)
     print("Loaded Data", flush=True)
-    print(data.keys())
-
 
     skf = StratifiedKFold(n_splits=5, shuffle=True, random_state=2)
     split = list(skf.split(data["tabular_train"], data["class_train"]))
