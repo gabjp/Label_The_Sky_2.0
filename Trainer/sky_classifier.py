@@ -60,13 +60,13 @@ class SkyClassifier:
                         layer.trainable = False
 
                 self.model.add(tf.keras.layers.Flatten()),
-                self.model.add(tf.keras.layers.Dense(1024, kernel_regularizer = tf.keras.regularizers.l2(l2)))
+                self.model.add(tf.keras.layers.Dense(1024, kernel_regularizer = tf.keras.regularizers.l2(l2), name="dense"))
                 self.model.add(tf.keras.layers.LeakyReLU())
                 self.model.add(tf.keras.layers.Dropout(dropout))
-                self.model.add(tf.keras.layers.Dense(512, kernel_regularizer = tf.keras.regularizers.l2(l2)))
+                self.model.add(tf.keras.layers.Dense(512, kernel_regularizer = tf.keras.regularizers.l2(l2), name="dense_1"))
                 self.model.add(tf.keras.layers.LeakyReLU())
                 self.model.add(tf.keras.layers.Dropout(dropout))
-                self.model.add(tf.keras.layers.Dense(3, activation='softmax'))
+                self.model.add(tf.keras.layers.Dense(3, activation='softmax',  name="dense_2"))
                 loss = "categorical_crossentropy"
                 metrics = ["accuracy"]
 
