@@ -5,6 +5,7 @@ from Trainer.data_manager import load_data, CLF_READY_FOLDER
 from sklearn.model_selection import StratifiedKFold
 from Trainer.sky_classifier import SkyClassifier
 import tensorflow as tf
+from Trainer.ensemble_trainer import MetaTrainer
 
 
 PRED_DIR = "../Data/ready/meta/"
@@ -60,12 +61,26 @@ def generate_data():
     np.save(PRED_DIR +"meta_target.npy",target)
     np.save(PRED_DIR +"meta_wise.npy",wise_flags)
 
-
-
     return 
 
 def train():
-    pass
+    meta_model = MetaTrainer("ensemble")
+
+    print("Loading Data", flush=True)
+    ds_name = 'clf_90_5_5'
+    data = load_data(ds_name, True)
+    X_train = np.load(PRED_DIR + "meta_features.npy")
+    y_train = np.load(PRED_DIR + "meta_targer.npy")
+    wise_train = np.load(PRED_DIR + "meta_wise.npy")
+    print("Loaded Data", flush=True)
+
+    print("Loading RF", flush = True)
+    unified_rf = SkyClassifier('RF', "Unified_RF", True)
+    unified_rf.build_model(n_estimators=100, bootstrap=False)
+    unified_rf.load_model()
+
+
+    return 
 
 def eval():
     pass
