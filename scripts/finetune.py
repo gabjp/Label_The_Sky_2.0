@@ -29,7 +29,7 @@ def main():
     model.build_model(to_finetune=True ,l2=l2, dropout=dpout, opt=opt)
     model.load_model(weights_path= weights_path, finetune=True)
     opt = tf.keras.optimizers.Adam(learning_rate=f_lr)
-    model.finetune(X,y, X_val, y_val, opt, notes= f"w_lr: {w_lr}, f_lr: {f_lr}", f_epochs=100)
+    model.finetune(X,y, X_val, y_val, opt, notes= f"w_lr: {w_lr}, f_lr: {f_lr}", f_epochs=300)
 
     model.load_model()
     model.eval(X_val, y_val, "clf_90_5_5_val", wise_flags=wise_val)
