@@ -58,7 +58,7 @@ class MetaTrainer:
         return self.model.predict(t_X)
     
     def eval(self, X, y, ds_name, wise_flags = None):
-        pred = np.argmax(self.model.predict(X), axis=1)
+        pred = np.argmax(self.model.predict(self.ss.transform(X)), axis=1)
 
         total = classification_report(y, pred, digits = 6, target_names = CLASS_NAMES)
         with_wise = classification_report(y[wise_flags], pred[wise_flags], digits = 6, target_names = CLASS_NAMES) if type(wise_flags) != type(None) else None
