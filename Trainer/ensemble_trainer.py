@@ -39,8 +39,11 @@ class MetaTrainer:
         t_X_train = self.ss.transform(X_train)
         t_X_val = self.ss.transform(X_val)
 
+        class_weights = compute_class_weight(class_weight='balanced', classes=[0,1,2], y = np.argmax(y_train, axis=1))
+        class_weights = {0:class_weights[0],1:class_weights[1],2:class_weights[2]}
+
         self.model.fit(t_X_train, y_train,validation_data = (t_X_val, y_val), batch_size = 32, verbose = 2, epochs = 30, 
-            class_weight=list(compute_class_weight(class_weight='balanced', classes=[0,1,2], y = np.argmax(y_train, axis=1))),
+            class_weight=class_weights,
             callbacks = [tf.keras.callbacks.ModelCheckpoint(
                         filepath=self.model_folder + self.model_name + ".h5",
                         save_weights_only=True,
