@@ -64,7 +64,6 @@ def generate_data():
     return 
 
 def train():
-    meta_model = MetaTrainer("ensemble")
 
     print("Loading Data", flush=True)
     ds_name = 'clf_90_5_5'
@@ -79,15 +78,36 @@ def train():
     unified_rf.build_model(n_estimators=100, bootstrap=False)
     unified_rf.load_model()
 
+    rf_pred_val = unified_rf.predict_proba(data["tabular_val"])
+    rf_pred_test = unified_rf.predict_proba(data["tabular_test"])
 
+    print("Loading VGG", flush = True)
+    model_name = f"vgg16mod_finetune_mags_wlr_0.0001flr_1e-05_l2_0.0_dt_0.3"
+    vgg = SkyClassifier("vgg16", model_name, False)
+
+    opt = tf.keras.optimizers.Adam(learning_rate=0.0001)
+    vgg.build_model(to_finetune=True ,l2=0, dropout=0.3, opt=opt)
+    vgg.load_model()
+
+    vgg_pred_val = unified_rf.predict(data["images_val"])
+    vgg_pred_test = unified_rf.predict(data["images_test"])
+
+    X_val = np.concatenate((rf_pred_val, vgg_pred_val), axis = 1)
+    X_test = np.concatenate((rf_pred_test, vgg_pred_test), axis = 1)
+
+    meta_model = MetaTrainer("ensemble")
+    meta_model.fit(X_train, y_train, X_val, data["class_val"])
+    meta_model.eval(X_val, data["class_val"], "clf_90_5_5_val" , wise_flags = data["wiseflags_val"])
+    meta_model.eval(X_test, data["class_test"], "clf_90_5_5_test", wise_flags = data["wiseflags_test"])
     return 
 
-def eval():
-    pass
+
 
 def main():
     if 'g' in sys.argv[1]:
         generate_data()
+    if 't' in sys.argv[1]:
+        train()
     pass
 
 if __name__ == "__main__":
