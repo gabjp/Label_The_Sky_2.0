@@ -69,7 +69,7 @@ def train():
     ds_name = 'clf_90_5_5'
     data = load_data(ds_name, True)
     X_train = np.load(PRED_DIR + "meta_features.npy")
-    y_train = np.load(PRED_DIR + "meta_targer.npy")
+    y_train = np.load(PRED_DIR + "meta_target.npy")
     wise_train = np.load(PRED_DIR + "meta_wise.npy")
     print("Loaded Data", flush=True)
 
