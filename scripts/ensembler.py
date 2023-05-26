@@ -89,8 +89,8 @@ def train():
     vgg.build_model(to_finetune=True ,l2=0, dropout=0.3, opt=opt)
     vgg.load_model()
 
-    vgg_pred_val = unified_rf.predict(data["images_val"])
-    vgg_pred_test = unified_rf.predict(data["images_test"])
+    vgg_pred_val = vgg.predict(data["images_val"])
+    vgg_pred_test = vgg.predict(data["images_test"])
 
     X_val = np.concatenate((rf_pred_val, vgg_pred_val), axis = 1)
     X_test = np.concatenate((rf_pred_test, vgg_pred_test), axis = 1)
