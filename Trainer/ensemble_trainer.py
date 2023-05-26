@@ -1,3 +1,5 @@
+import sys
+sys.path.append("..")
 from sklearn.metrics import classification_report
 from sklearn.utils.class_weight import compute_class_weight
 import numpy as np
