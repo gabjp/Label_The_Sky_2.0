@@ -64,7 +64,7 @@ class MetaTrainer:
         with_wise = classification_report(y[wise_flags], pred[wise_flags], digits = 6, target_names = CLASS_NAMES) if type(wise_flags) != type(None) else None
         no_wise = classification_report(y[np.invert(wise_flags)], pred[np.invert(wise_flags)], digits = 6, target_names = CLASS_NAMES) if type(wise_flags) != type(None) else None
 
-        output = eval_string(self.model_type, self.model_name, self.wise, ds_name, total, with_wise, no_wise)
+        output = eval_string("ensemble", self.model_name, True, ds_name, total, with_wise, no_wise)
 
         with open(self.model_folder + ds_name + '.results', 'w') as results:
             results.write(output)
