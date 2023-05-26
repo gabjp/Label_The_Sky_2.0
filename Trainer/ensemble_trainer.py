@@ -8,7 +8,7 @@ import tensorflow as tf
 from tensorflow import keras
 from Trainer.sky_classifier import OUT_DIR, CLASS_NAMES
 from sklearn.preprocessing import StandardScaler
-from utils import eval_string
+from Trainer.utils import eval_string
 
 
 class MetaTrainer:
