@@ -27,7 +27,7 @@ class MetaTrainer:
         self.model.add(keras.layers.Dense(300, activation = "relu"))
         self.model.add(keras.layers.Dense(100, activation = "relu"))
         self.model.add(keras.layers.Dense(3, activation = "softmax"))
-        self.model.compile(loss = "categorical_crossentropy", optimizer = keras.optimizers.Adam(lr=1e-3), metrics = ["accuracy"])
+        self.model.compile(loss = "categorical_crossentropy", optimizer = keras.optimizers.Adam(lr=1e-4), metrics = ["accuracy"])
     
     def fit(self, X_train, y_train, X_val, y_val):
         self.ss = StandardScaler()
