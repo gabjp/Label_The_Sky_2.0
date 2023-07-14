@@ -13,7 +13,8 @@ from sklearn.utils.class_weight import compute_class_weight
 MODELS = ['vgg16', 'RF']
 CLASS_NAMES = ['QSO', 'STAR', 'GALAXY']
 PRETEXT_OUTPUT_TYPES = ['magnitudes', 'images', None]
-SEED = 2
+#SEED = 2
+SEED = None
 OUT_DIR = "../outs/" # This assumes that the program will be run from scripts dir
 
 class SkyClassifier:
