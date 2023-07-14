@@ -16,7 +16,8 @@ def main():
     lr = float(sys.argv[1])
     l2 = float(sys.argv[2])
     dpout = float(sys.argv[3])
-    model_name = f"vgg16mod_pretrain_mags_lr_{lr}_l2_{l2}_dt_{dpout}"
+    run = int(sys.argv[4])
+    model_name = f"vgg16mod_pretrain_mags_lr_{lr}_l2_{l2}_dt_{dpout}_run{run}"
 
     print(model_name, flush=True)
     model = SkyClassifier("vgg16", model_name,
