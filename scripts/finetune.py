@@ -14,13 +14,15 @@ def main():
     wise_val, wise_test = data['wiseflags_val'], data['wiseflags_test'] 
     print("Loaded Data", flush=True)
 
-    weights_path = "../outs/vgg16mod_pretrain_mags_lr_1e-05_l2_0.0_dt_0.0/vgg16mod_pretrain_mags_lr_1e-05_l2_0.0_dt_0.0"
+    weights_path = "../outs/vgg16mod_pretrain_mags_lr_1e-05_l2_0.0_dt_0.0_run3/vgg16mod_pretrain_mags_lr_1e-05_l2_0.0_dt_0.0_run3"
     w_lr = float(sys.argv[1])
     f_lr = float(sys.argv[2])
     l2 = float(sys.argv[3])
     dpout = float(sys.argv[4])
+    f_epochs = int(sys.argv[5])
+    run = int(sys.argv[6])
 
-    model_name = f"vgg16mod_finetune_mags_wlr_{w_lr}flr_{f_lr}_l2_{l2}_dt_{dpout}"
+    model_name = f"vgg16mod_finetune_mags_wlr_{w_lr}_flr_{f_lr}_l2_{l2}_dt_{dpout}_epochs_{f_epochs}_run{run}"
 
     print(model_name, flush=True)
     model = SkyClassifier("vgg16", model_name, False)
@@ -29,7 +31,7 @@ def main():
     model.build_model(to_finetune=True ,l2=l2, dropout=dpout, opt=opt)
     model.load_model(weights_path= weights_path, finetune=True)
     opt = tf.keras.optimizers.Adam(learning_rate=f_lr)
-    model.finetune(X,y, X_val, y_val, opt, notes= f"w_lr: {w_lr}, f_lr: {f_lr}", f_epochs=300)
+    model.finetune(X,y, X_val, y_val, opt, notes= f"w_lr: {w_lr}, f_lr: {f_lr}", f_epochs=f_epochs)
 
     model.load_model()
     model.eval(X_val, y_val, "clf_90_5_5_val", wise_flags=wise_val)
