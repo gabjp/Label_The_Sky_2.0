@@ -38,7 +38,7 @@ class SkyClassifier:
             self.callbacks = [
                 tf.keras.callbacks.ModelCheckpoint(
                     os.path.join(self.model_folder + self.model_name + ".h5"),
-                    monitor='val_loss', save_best_only=True, save_weights_only=True, mode='min')
+                    monitor='val_accuracy', save_best_only=True, save_weights_only=True, mode='max')
             ] if self.save else None
 
     def build_model(self, to_finetune = False, **kwargs):

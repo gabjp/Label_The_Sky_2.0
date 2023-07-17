@@ -20,9 +20,15 @@ def main():
     l2 = float(sys.argv[3])
     dpout = float(sys.argv[4])
     f_epochs = int(sys.argv[5])
-    run = int(sys.argv[6])
+    nowiseval = int(sys.argv[6])
+    run = int(sys.argv[7])
 
-    model_name = f"vgg16mod_finetune_mags_wlr_{w_lr}_flr_{f_lr}_l2_{l2}_dt_{dpout}_epochs_{f_epochs}_run{run}"
+    if nowiseval:
+        X_val = X_val[wise_val]
+        y_val = y_val[wise_val]
+
+
+    model_name = f"vgg16mod_finetune_mags_wlr_{w_lr}_flr_{f_lr}_l2_{l2}_dt_{dpout}_epochs_{f_epochs}_nowiseval_{nowiseval}_run{run}"
 
     print(model_name, flush=True)
     model = SkyClassifier("vgg16", model_name, False)
