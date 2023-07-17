@@ -20,6 +20,9 @@ def main():
     np.save("../preds/true_nwval.npy", y_val[np.invert(wise_val)])
     np.save("../preds/true_nwtest.npy", y_test[np.invert(wise_test)])
 
+    X_val,y_val = data['tabular_val'], data['class_val']
+    X_test,y_test = data['tabular_test'], data['class_test']
+
     for i in range(1,4):
         unified_rf = SkyClassifier('RF', f"Unified_RF_run{i}", True, save=False)
         unified_rf.build_model(n_estimators=100, bootstrap=False)
@@ -31,6 +34,9 @@ def main():
         pred_test = unified_rf.predict_proba(X_test[np.invert(wise_test)])
         np.save("../preds/URF_{i}_nwval.npy", pred_val)
         np.save("../preds/URF_{i}_nwtest.npy", pred_test)
+
+    X_val,y_val = data['images_val'], data['class_val']
+    X_test,y_test = data['images_test'], data['class_test']
 
     for i in range (1,4):
         model_name = f"vgg16mod_finetune_mags_wlr_0.0001_flr_1e-05_l2_0.0007_dt_0.3_epochs_30_nowiseval_1_run{i}"
