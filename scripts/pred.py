@@ -32,8 +32,8 @@ def main():
 
         pred_val = unified_rf.predict_proba(X_val[np.invert(wise_val)])
         pred_test = unified_rf.predict_proba(X_test[np.invert(wise_test)])
-        np.save("../preds/URF_{i}_nwval.npy", pred_val)
-        np.save("../preds/URF_{i}_nwtest.npy", pred_test)
+        np.save(f"../preds/URF_{i}_nwval.npy", pred_val)
+        np.save(f"../preds/URF_{i}_nwtest.npy", pred_test)
 
     X_val,y_val = data['images_val'], data['class_val']
     X_test,y_test = data['images_test'], data['class_test']
@@ -49,8 +49,8 @@ def main():
 
         pred_val = vgg.predict(X_val[np.invert(wise_val)])
         pred_test = vgg.predict(X_test[np.invert(wise_test)])
-        np.save("../preds/VGG_{i}_nwval.npy", pred_val)
-        np.save("../preds/VGG_{i}_nwtest.npy", pred_test)
+        np.save(f"../preds/VGG_{i}_nwval.npy", pred_val)
+        np.save(f"../preds/VGG_{i}_nwtest.npy", pred_test)
 
 
 if __name__ == "__main__":
