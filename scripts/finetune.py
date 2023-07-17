@@ -12,7 +12,8 @@ def main():
     X,y = data['images_train'], data['class_train']
     X_val,y_val = data['images_val'], data['class_val']
     X_test,y_test = data['images_test'], data['class_test']
-    wise_val, wise_test = data['wiseflags_val'], data['wiseflags_test'] 
+    wise_val, wise_test = data['wiseflags_val'], data['wiseflags_test']
+    wise_train = data['wiseflags_train'] 
     print("Loaded Data", flush=True)
 
     weights_path = "../outs/vgg16mod_pretrain_mags_lr_1e-05_l2_0.0_dt_0.0_run3/vgg16mod_pretrain_mags_lr_1e-05_l2_0.0_dt_0.0_run3"
@@ -27,6 +28,8 @@ def main():
     if nowiseval:
         X_val = X_val[np.invert(wise_val)]
         y_val = y_val[np.invert(wise_val)]
+        X = X[np.invert(wise_train)]
+        y = y[np.invert(wise_train)]
 
 
     model_name = f"vgg16mod_finetune_mags_wlr_{w_lr}_flr_{f_lr}_l2_{l2}_dt_{dpout}_epochs_{f_epochs}_nowiseval_{nowiseval}_run{run}"
