@@ -3,6 +3,7 @@ sys.path.append("..")
 from Trainer.data_manager import load_data
 from Trainer.sky_classifier import SkyClassifier
 import tensorflow as tf
+import numpy as np
 
 def main():
     print("Loading Data", flush=True)
@@ -24,8 +25,8 @@ def main():
     run = int(sys.argv[7])
 
     if nowiseval:
-        X_val = X_val[wise_val]
-        y_val = y_val[wise_val]
+        X_val = X_val[np.invert(wise_val)]
+        y_val = y_val[np.invert(wise_val)]
 
 
     model_name = f"vgg16mod_finetune_mags_wlr_{w_lr}_flr_{f_lr}_l2_{l2}_dt_{dpout}_epochs_{f_epochs}_nowiseval_{nowiseval}_run{run}"
