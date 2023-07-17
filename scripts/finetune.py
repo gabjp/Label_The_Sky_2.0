@@ -43,7 +43,7 @@ def main():
     opt = tf.keras.optimizers.Adam(learning_rate=f_lr)
     model.finetune(X,y, X_val, y_val, opt, notes= f"w_lr: {w_lr}, f_lr: {f_lr}", f_epochs=f_epochs)
 
-    X_test,y_test = data['images_test'], data['class_test']
+    X_val,y_val = data['images_val'], data['class_val']
     wise_val, wise_test = data['wiseflags_val'], data['wiseflags_test']
 
     model.load_model()
